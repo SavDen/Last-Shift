@@ -12,6 +12,8 @@ public class PlayerUIHub
         hpSlider.maxValue = MaxHealth;
         armorSlider.maxValue = MaxArmor;
         hpSlider.value = MaxHealth;
+        armorSlider.value = MaxArmor;
+
     }
 
     public void UpdateSliders(float health, float armor)

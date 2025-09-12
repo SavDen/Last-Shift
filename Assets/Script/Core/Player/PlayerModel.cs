@@ -123,6 +123,14 @@ public class PlayerModel
         {
             _armor -= damage;
         }
+
+        else if (_armor - damage <= 0)
+        {
+            var armor = _armor;
+            _armor -= damage;
+            _health -= damage - armor;
+        }
+
         else
         {
             _health -= damage;
