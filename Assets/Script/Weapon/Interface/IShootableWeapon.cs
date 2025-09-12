@@ -1,0 +1,22 @@
+using UnityEngine;
+
+public interface IShootableWeapon : IWeapon
+{
+    ///Logic
+    public float Cooldown { get; }
+    public bool IsNeedReload { get; }
+    public float ReloadTimeWeapon { get; }
+    //View
+    public Sprite IconWeapon { get; }
+    public float CurrentAmmo { get; }
+    public float AmmoCapacity { get; }
+    public Transform[] HandsPos { get; }
+
+
+    void Init(ShotableData data);
+
+    void Shoot();
+
+    void ReloadWeapon();
+
+}

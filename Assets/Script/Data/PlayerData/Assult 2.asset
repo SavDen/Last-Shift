@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca89a942242a4ca6a276940293a99f6, type: 3}
+  m_Name: Assult 2
+  m_EditorClassIdentifier: 
+  PlayerClass: 0
+  prefab: {fileID: 1096376965629970, guid: 5ca4581ce598741409bac0c6f1bcf24c, type: 3}
+  RangedWeapon1: {fileID: 11400000, guid: b1c9a5c5474da4e3186f203db5c811c2, type: 2}
+  RangedWeapon2: {fileID: 11400000, guid: e7b05449655054d63818584a8c7e528d, type: 2}
+  Throwable: {fileID: 11400000, guid: 0e13bcf2424334645b8a1476696777c6, type: 2}
+  Health: 0
+  Armor: 0
+  SpeedMove: 5
+  BufferWeapon: 0
+  ReloadTime: 2

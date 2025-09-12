@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535dabaa8e706423abc94dbc4eebbdb3, type: 3}
+  m_Name: Fireweapon
+  m_EditorClassIdentifier: 
+  WeaponName: Fire
+  icon: {fileID: 21300000, guid: b01cb4e582abf4ef5851e8d3b52e1229, type: 3}
+  prefab: {fileID: 400931277225825397, guid: 77ff0221bff1744378a54fd64a800750, type: 3}
+  baseDamage: 10
+  coolDown: 2
+  reloadTime: 2
+  weaponHands: 1
+  Ammo: 30
+  AmmoCapacity: 3000
+  flameEffect: {fileID: 4962384117209932997, guid: a92e9bfe631d646edbc8c2453cd7ce11,
+    type: 3}

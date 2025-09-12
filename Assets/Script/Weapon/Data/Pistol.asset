@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53d41537634d45858eca3e3bafce91b, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: Assembly-CSharp::RangedWeaponData
+  WeaponName: Pistol
+  icon: {fileID: 21300000, guid: 553b8b8da48f04639814a5d20563ca7f, type: 3}
+  prefab: {fileID: 1077364100456807939, guid: 408fba28e75654cb49a203943145684b, type: 3}
+  baseDamage: 1
+  coolDown: 0.5
+  reloadTime: 5
+  weaponHands: 0
+  Ammo: 7
+  AmmoCapacity: 120
+  typeShoot: 0
+  bullet: {fileID: 8877450368381581161, guid: 42ae96793196f4711a6af1cee367d155, type: 3}
+  bulletSpeed: 100
+  rangedBullet: 0
