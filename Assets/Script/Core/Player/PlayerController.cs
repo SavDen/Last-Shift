@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -118,22 +119,38 @@ public class PlayerController : EntityBase
 
     //}
     //Init
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(base.IsOwner)
+        {
+            CinemachineVirtualCamera cam = FindAnyObjectByType<CinemachineVirtualCamera>();
+            cam.LookAt = transform;
+            cam.Follow = transform;
+        }
+        else
+        {
+            gameObject.GetComponent<PlayerController>().enabled = false;
+        }
+
+    }
     private void Awake()
     {
         //Cursor.visible = false;
         playerModel.InitModel(PlayerData);
         
-        playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
+       //playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
 
-        weaponController.InitWeapon(playerView.MainSlotView, PlayerData.RangedWeapon1,
-            playerView.AdditionalSlotView, PlayerData.RangedWeapon2,            
-            playerView.MeleeWeaponView,
-            PlayerData.MeleeWeaponData,
-            PlayerData.ThrowableWeaponDatas,
-            PlayerData.CountExplode,
-            PlayerData.CountSmok,
-            PlayerData.CountFlash,
-            lineRenderer);
+        //weaponController.InitWeapon(playerView.MainSlotView, PlayerData.RangedWeapon1,
+        //    playerView.AdditionalSlotView, PlayerData.RangedWeapon2,            
+        //    playerView.MeleeWeaponView,
+        //    PlayerData.MeleeWeaponData,
+        //    PlayerData.ThrowableWeaponDatas,
+        //    PlayerData.CountExplode,
+        //    PlayerData.CountSmok,
+        //    PlayerData.CountFlash,
+        //    lineRenderer);
     }
 
     private void Update()
@@ -142,9 +159,9 @@ public class PlayerController : EntityBase
 
         Turn();
 
-        ShootWeapon();
+        //ShootWeapon();
 
-        weaponController.ShowTrRender(transform);
+        //weaponController.ShowTrRender(transform);
     }
 
     private void ShootWeapon()

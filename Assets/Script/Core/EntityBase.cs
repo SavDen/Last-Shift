@@ -1,6 +1,8 @@
 using UnityEngine;
+using FishNet.Connection;
+using FishNet.Object;
 
-public abstract class EntityBase : MonoBehaviour, IDamage, IFlashDamageable
+public abstract class EntityBase : NetworkBehaviour, IDamage, IFlashDamageable
 {
     public abstract void FlashEffect(float duration);
 

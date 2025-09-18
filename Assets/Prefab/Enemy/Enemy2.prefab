@@ -7108,6 +7108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c4763053af41ff95ba6f5995bcf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   _enemyView:
     bloodEffect:
     - {fileID: 7771832912891761296}

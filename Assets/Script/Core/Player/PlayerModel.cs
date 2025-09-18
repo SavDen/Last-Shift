@@ -36,7 +36,7 @@ public class PlayerModel
         _armor = data.Armor;
         _speedMove = data.SpeedMove;
         _reloadTime = data.ReloadTime;
-        _playerUIHub.Init(_health, _armor);
+        //_playerUIHub.Init(_health, _armor);
         
     }
 
