@@ -1,5 +1,5 @@
 using FishNet.Managing;
-
+using FishNet;
 using UnityEngine;
 
 public class RemoteConnector : MonoBehaviour
@@ -7,13 +7,20 @@ public class RemoteConnector : MonoBehaviour
     [SerializeField] private NetworkManager networkManager;
 
 
-    public void ConnectToRemoteServer()
+    public bool Connect()
     {
         // Подключаемся к вашему серверу
         if(networkManager.ClientManager.StartConnection("77.105.168.43", 7777))
         {
-            Debug.Log($"Connecting to remote server: 77.105.168.43:7777");
+            print("подклоючение есть");
+            return true;
         }
+        else
+        {
+            print("подключения нет");
+            return false;
+        }
+
 
 
     }
