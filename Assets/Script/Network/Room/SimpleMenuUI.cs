@@ -32,11 +32,11 @@ public class SimpleMenuUI : MonoBehaviour
     // Создание комнаты
     private void CreateRoom()
     {
-        if(remoteConnector.Connect())
-        {
-            statusText.text = "Создание комнаты...";
-            //roomManager.CreateRoom();
-        }
+        //if(remoteConnector.Connect())
+        //{
+        //    statusText.text = "Создание комнаты...";
+        //    //roomManager.CreateRoom();
+        //}
 
     }
 

@@ -1,16 +1,49 @@
 using FishNet.Managing;
+using FishNet.Transporting;
 using UnityEngine;
 
 public class ServerStarter : MonoBehaviour
 {
-    public NetworkManager networkManager;
+    [SerializeField] private NetworkManager networkManager;
 
-    void Start()
+    private void OnEnable()
     {
-        var transport = networkManager.TransportManager.Transport;
-        transport.SetServerBindAddress("0.0.0.0", FishNet.Transporting.IPAddressType.IPv4);
-        transport.SetPort(7777);
+        if (networkManager != null)
+        {
+            networkManager.ServerManager.OnServerConnectionState += OnServerStateChanged;
+        }
+    }
 
-        networkManager.ServerManager.StartConnection();
+    private void Start()
+    {
+        if (networkManager == null)
+        {
+            networkManager = FindObjectOfType<NetworkManager>();
+        }
+
+        if (networkManager != null)
+        {
+            networkManager.ServerManager.StartConnection();
+        }
+        else
+        {
+            Debug.LogError("NetworkManager не найден!");
+        }
+    }
+
+    private void OnServerStateChanged(ServerConnectionStateArgs args)
+    {
+        if (args.ConnectionState == LocalConnectionState.Started)
+        {
+            Debug.Log("✅ Сервер запущен!");
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (networkManager != null)
+        {
+            networkManager.ServerManager.OnServerConnectionState -= OnServerStateChanged;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Component.Animating;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Random = UnityEngine.Random;

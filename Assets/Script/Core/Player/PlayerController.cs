@@ -120,21 +120,7 @@ public class PlayerController : EntityBase
     //}
     //Init
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(base.IsOwner)
-        {
-            CinemachineVirtualCamera cam = FindAnyObjectByType<CinemachineVirtualCamera>();
-            cam.LookAt = transform;
-            cam.Follow = transform;
-        }
-        else
-        {
-            gameObject.GetComponent<PlayerController>().enabled = false;
-        }
-
-    }
+   
     private void Awake()
     {
         //Cursor.visible = false;
@@ -155,6 +141,8 @@ public class PlayerController : EntityBase
 
     private void Update()
     {
+        if(!IsOwner) return;
+        
         Move();
 
         Turn();
