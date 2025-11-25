@@ -1,6 +1,12 @@
 using System;
 using System.Collections;
 using Cinemachine;
+using FishNet;
+using FishNet.Component.Transforming;
+using FishNet.Connection;
+using FishNet.Object;
+using FishNet.Transporting;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +23,10 @@ public class PlayerController : EntityBase
     [Header("Render")]
     [SerializeField] private LineRenderer lineRenderer;
 
+    // [Header("Camera")]
+    // [SerializeField] private Camera _playerMainCamera;
+    // [SerializeField] private CinemachineVirtualCamera  _playerCinemachineCamera;
+    
     private Coroutine _reloadCorutine;
 
     private string _inputDevice;
@@ -30,6 +40,7 @@ public class PlayerController : EntityBase
     private bool _isChange;
     private bool _isMeleeAttack;
 
+    public bool IsDead() => playerModel.IsDead();
 
     #region InputSystem
     // Input System events
@@ -111,6 +122,8 @@ public class PlayerController : EntityBase
     public void OnChangeScheme(PlayerInput playerInput)
     {
         _inputDevice = playerInput.currentControlScheme;
+        Debug.Log($"{_inputDevice}");
+        
     }
     #endregion
 
@@ -119,34 +132,54 @@ public class PlayerController : EntityBase
 
     //}
     //Init
+    
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!IsOwner)
+        {
+            GetComponent<PlayerInput>().enabled = false;
+            GetComponent<FlashVolumeEffect>().enabled = false;
+            GetComponent<PlayerController>().enabled = false;
+            return;
+        }
+        
+        var camera= FindFirstObjectByType<CinemachineVirtualCamera>();
+        camera.Follow = transform;
+        camera.LookAt = transform;
 
-   
+
+    }
+
     private void Awake()
     {
         //Cursor.visible = false;
         playerModel.InitModel(PlayerData);
-        
-       //playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
 
-        //weaponController.InitWeapon(playerView.MainSlotView, PlayerData.RangedWeapon1,
-        //    playerView.AdditionalSlotView, PlayerData.RangedWeapon2,            
-        //    playerView.MeleeWeaponView,
-        //    PlayerData.MeleeWeaponData,
-        //    PlayerData.ThrowableWeaponDatas,
-        //    PlayerData.CountExplode,
-        //    PlayerData.CountSmok,
-        //    PlayerData.CountFlash,
-        //    lineRenderer);
+       playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
+
+        weaponController.InitWeapon(playerView.MainSlotView, PlayerData.RangedWeapon1,
+            playerView.AdditionalSlotView, PlayerData.RangedWeapon2,            
+            playerView.MeleeWeaponView,
+            PlayerData.MeleeWeaponData,
+            PlayerData.ThrowableWeaponDatas,
+            PlayerData.CountExplode,
+            PlayerData.CountSmok,
+            PlayerData.CountFlash,
+            lineRenderer);
     }
 
     private void Update()
     {
-        if(!IsOwner) return;
+        if (!IsOwner)
+        {
+            return;
+        }
         
         Move();
 
         Turn();
-
+        
         //ShootWeapon();
 
         //weaponController.ShowTrRender(transform);

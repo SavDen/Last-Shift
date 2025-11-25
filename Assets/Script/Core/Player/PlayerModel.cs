@@ -1,4 +1,6 @@
 using System;
+using Cinemachine;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +13,8 @@ public class PlayerModel
 
     [SerializeField] private LayerMask layserMask;
     private PlayerData _playerData;
+    
+    private Camera _camera;
 
     private float _health;
     private float _armor;
@@ -27,6 +31,9 @@ public class PlayerModel
 
     public float VelocityX => velocityX;
     public float VelocityY => velocityY;
+    
+    public bool IsDead() => _health <= 0;
+
 
 
     public void InitModel(PlayerData data)
@@ -69,6 +76,7 @@ public class PlayerModel
     {
         if (!characterController) return;
 
+        
         switch(device)
         {
             case "Gamepad":
@@ -76,6 +84,11 @@ public class PlayerModel
                 break;
 
             case "Keyboard":
+                //Debug.Log("Keyboard");
+                RotateTowardMouse(inputRotation);
+                break;
+            
+            default:
                 RotateTowardMouse(inputRotation);
                 break;
         }

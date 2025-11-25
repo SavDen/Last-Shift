@@ -8,7 +8,6 @@ public class BootstrapManager : MonoBehaviour
 {
     public static BootstrapManager instance;
     
-    [SerializeField] private string _nameScene;
     [SerializeField] private NetworkManager _networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks _steamworks;  
     
@@ -38,15 +37,9 @@ public class BootstrapManager : MonoBehaviour
         LobbyEnter = Callback<LobbyEnter_t>.Create(OnLobbyEnter);
     }
 
-    public void GotoMenu()
+    public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(_nameScene); 
-    }
-    
-    private void GoToOnlineLobby()
-    {
-        SceneManager.LoadScene("Lobby");
-        
+        SceneManager.LoadScene(sceneName);
     }
 
     public static void CreateLobby()
@@ -54,7 +47,24 @@ public class BootstrapManager : MonoBehaviour
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
     }
     
+    public static void LeaveLobby()
+    {
+        instance.OnLeaveLobby();
+    }
 
+    private void OnLeaveLobby()
+    {
+        SteamMatchmaking.LeaveLobby(new CSteamID(CurrentLobbyID));
+        CurrentLobbyID = 0;
+ 
+        
+        _steamworks.StopConnection(false);
+        if(_networkManager.IsServer)
+            _steamworks.StopConnection(true);
+
+        LoadScene("Menu");
+    }
+    
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         print("Start Lobby Creation: " + callback.m_eResult);
@@ -66,7 +76,7 @@ public class BootstrapManager : MonoBehaviour
         _steamworks.StartConnection(true);
         print("Lobby created OK");
         
-        GoToOnlineLobby();
+        LoadScene("Lobby");
     }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
@@ -76,12 +86,15 @@ public class BootstrapManager : MonoBehaviour
 
     private void OnLobbyEnter(LobbyEnter_t callback)
     {
+        
         CurrentLobbyID = callback.m_ulSteamIDLobby;
         
         _steamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyID), "Host"));
         _steamworks.StartConnection(false);
         
-        GoToOnlineLobby();
+        
+        if(_networkManager.IsServer) return;
+        print("Lobby Enter Success");
+        LoadScene("Lobby");
     }
-
 }

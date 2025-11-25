@@ -18,7 +18,7 @@ public class ServerStarter : MonoBehaviour
     {
         if (networkManager == null)
         {
-            networkManager = FindObjectOfType<NetworkManager>();
+            networkManager = FindFirstObjectByType<NetworkManager>();
         }
 
         if (networkManager != null)

@@ -1,30 +1,42 @@
+using System.Collections;
+using Cinemachine;
+using FishNet;
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
+using Zenject;
 
 public class SpawnPlayerNetwork : NetworkBehaviour 
 {
-    private GameObject _playerPrefab;
+    [Inject] private readonly EnemyTargetManager  targetManager;
+    [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private Transform[]  _spawnPoints;
 
     public override void OnStartServer()
     {
-        // Просто загружаем префаб на сервере
-        _playerPrefab = Resources.Load<GameObject>("Prefab/Player");
+        base.OnStartServer();
+
+        StartCoroutine(SpawnAllPlayers());
     }
 
-    // 📌 Публичный метод для кнопки
-    public void SpawnPlayerButton()
+    private IEnumerator SpawnAllPlayers()
     {
-        // Вызываем спавн когда игрок нажимает кнопку
-        RequestPlayerSpawn();
-    }
+        yield return new WaitForSeconds(5);
 
-    [ServerRpc]
-    private void RequestPlayerSpawn()
-    {
-        if (_playerPrefab != null)
+        int spawnIndex = 0;
+
+        foreach (var conn in InstanceFinder.ServerManager.Clients.Values)
         {
-            GameObject player = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
-            Spawn(player, base.Owner);
+            SpawnPlayer(conn, spawnIndex);
+            spawnIndex++;
         }
+
+    }
+
+    private void SpawnPlayer(NetworkConnection conn, int spawnIndex)
+    {
+        var player = Instantiate(_playerPrefab,  _spawnPoints[spawnIndex].position, Quaternion.identity);
+        targetManager.RegisterTarget(player.GetComponent<PlayerController>());
+        InstanceFinder.ServerManager.Spawn(player, conn);
     }
 }

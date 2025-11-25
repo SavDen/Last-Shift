@@ -1,17 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using FishNet;
+using FishNet.Object;
 using UnityEngine;
+using Zenject;
 
-public class EnemySpawn : MonoBehaviour
+public class EnemySpawn : NetworkBehaviour
 {
-    public Transform target;
     public List<Transform> points;
     public float timeSpawn;
     public bool spawn;
     public EnemyData enemy;
+    
+    [Inject] private readonly EnemyTargetManager _enemyTargetManager;
 
-    private void Awake()
+    public override void OnStartServer()
     {
+        base.OnStartServer();
+        StartCoroutine(DelaySpawnEnemy());
+    }
+
+    private IEnumerator DelaySpawnEnemy()
+    {
+        yield return new WaitForSeconds(2);
         StartCoroutine(Spawn());
     }
 
@@ -21,7 +32,13 @@ public class EnemySpawn : MonoBehaviour
         {
             yield return new WaitForSeconds(timeSpawn);
             var newEnemy = Instantiate(enemy.prefab, points[Random.Range(0, points.Count)].position, Quaternion.identity);
-            newEnemy.Initialized(enemy, target);
+            
+            _enemyTargetManager.RegisterEnemy(newEnemy.GetComponent<EnemyBase>());
+            
+            InstanceFinder.ServerManager.Spawn(newEnemy.gameObject);
+            
+            newEnemy.Initialized(enemy);
+            
         }
     }
     

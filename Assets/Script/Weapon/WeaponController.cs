@@ -50,9 +50,9 @@ public class WeaponController
 
        // weaponControllerView = new WeaponControllerView();
 
-        weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
-            selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,
-            throwableSlot.AmmoThrowable);
+        // weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
+        //     selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,
+        //     throwableSlot.AmmoThrowable);
     }
 
     private void InitThrowable(ThrowableWeaponData[] data, int explodeAmmo, int flashAmmo, int smokAmmo)

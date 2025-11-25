@@ -29,43 +29,9 @@ public class FlashVolumeEffect : MonoBehaviour
 
     }
 
-    //private void ResetVolumeIntensity()
-    //{
-    //    //if(flashEffectObject.GetComponent<Volume>().profile.TryGet<ChromaticAberration>(out var intensity))
-    //    //{
-    //    //    intensity.intensity.value = 1;
-    //    //}
-
-    //    //if (flashEffectObject.GetComponent<Volume>().profile.TryGet<FilmGrain>(out var intensity2))
-    //    //{
-    //    //    intensity2.intensity.value = 1;
-    //    //}
-
-    //    flashEffectObject.GetComponent<Volume>().weight = 1;
-
-    //}
-
     private void AnimFlashEffectVolume(float duration, Volume volumeFlash)
     {
-        //if (flashEffectObject.GetComponent<Volume>().profile.TryGet<ChromaticAberration>(out var effect))
-        //{
-        //    DOTween.To(
-        //        () => effect.intensity.value,
-        //        x => effect.intensity.value = x,
-        //        0f,                    // до значения 1
-        //        duration         // за 3 секунды
-        //    ).SetEase(Ease.OutQuad);
-        //}
-
-        //if (flashEffectObject.GetComponent<Volume>().profile.TryGet<FilmGrain>(out var effect2))
-        //{
-        //    DOTween.To(
-        //        () => effect2.intensity.value,
-        //        x => effect2.intensity.value = x,
-        //        0f,                    // до значения 1
-        //        duration         // за 3 секунды
-        //    ).SetEase(Ease.OutQuad);
-        //}
+       
         volumeFlash.weight = 1;
 
         DOTween.To(

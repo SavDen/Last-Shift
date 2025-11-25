@@ -5255,7 +5255,7 @@ GameObject:
   - component: {fileID: 875522528429301701}
   - component: {fileID: 1419986186256196655}
   - component: {fileID: 2118521894898446807}
-  - component: {fileID: 3746952041989510141}
+  - component: {fileID: 5993303250477518074}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -5492,8 +5492,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 3746952041989510141}
-  _networkObjectCache: {fileID: 3746952041989510141}
+  _addedNetworkObject: {fileID: 5993303250477518074}
+  _networkObjectCache: {fileID: 5993303250477518074}
   PlayerData: {fileID: 11400000, guid: 4d3809c7411384613b7266159e063720, type: 2}
   playerModel:
     characterController: {fileID: 2286691497760593430}
@@ -5559,8 +5559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
   _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 3746952041989510141}
-  _networkObjectCache: {fileID: 3746952041989510141}
+  _addedNetworkObject: {fileID: 5993303250477518074}
+  _networkObjectCache: {fileID: 5993303250477518074}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -5569,7 +5569,7 @@ MonoBehaviour:
     Scale: 0
   _interpolation: 2
   _extrapolation: 2
-  _enableTeleport: 0
+  _enableTeleport: 1
   _teleportThreshold: 1
   _clientAuthoritative: 1
   _sendToOwner: 1
@@ -5591,7 +5591,7 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
---- !u!114 &3746952041989510141
+--- !u!114 &5993303250477518074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5619,7 +5619,7 @@ MonoBehaviour:
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
   _isSpawnable: 1
-  _isGlobal: 0
+  _isGlobal: 1
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
@@ -5637,7 +5637,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 16
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 18016179864132615482
   <SceneId>k__BackingField: 0
@@ -6579,8 +6579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
   _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 3746952041989510141}
-  _networkObjectCache: {fileID: 3746952041989510141}
+  _addedNetworkObject: {fileID: 5993303250477518074}
+  _networkObjectCache: {fileID: 5993303250477518074}
   IgnoredParameters: []
   _animator: {fileID: 6339641797030144151}
   _synchronizeWhenDisabled: 0

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,15 +15,20 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     private Transform _target;
 
+    private Coroutine _followCorutine;
     private Coroutine _smokeCorutine;
     private Coroutine _flashCorutine;
 
+    private int _selectTarget;
+    
     private float _health;
 
     private bool _follow;
     private bool _isDead;
+    
+    public bool IsDead() => _isDead;
 
-    public void Initialized(EnemyData enemyData, Transform target)
+    public void Initialized(EnemyData enemyData)
     {
         _enemyData = enemyData;
 
@@ -38,18 +45,24 @@ public class EnemyBase : EntityBase, ISmokeDamageable
             GetComponentsInChildren<Collider>().ToList(),
             GetComponent<CapsuleCollider>());
 
-        _target = target;
-
         _follow = true;
-
-        StartCoroutine(Follow());
+    }
+    
+    public void GetTarget(Transform target)
+    {
+        _target = target;
+        if (!_navMeshAgent.hasPath)
+        {
+            StartCoroutine(Follow());
+        }
     }
 
     private IEnumerator Follow()
     {
-        while(_follow && !_isDead)
+        while(_follow && !_isDead && _target != null)
         {
 
+            print("Follow");
             _navMeshAgent.SetDestination(_target.position);
 
             _enemyView.StateRun(_navMeshAgent.velocity.magnitude > 0.5f);
