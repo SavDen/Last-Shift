@@ -50,7 +50,11 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     
     public void GetTarget(Transform target)
     {
-        _target = target;
+        if (_smokeCorutine != null)
+        {
+            _target = target;    
+        }
+        
         if (!_navMeshAgent.hasPath)
         {
             StartCoroutine(Follow());
