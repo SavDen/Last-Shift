@@ -1131,7 +1131,7 @@ MonoBehaviour:
   - {fileID: 328771840}
   - {fileID: 1784410052}
   - {fileID: 463278565}
-  timeSpawn: 0.5
+  timeSpawn: 5
   spawn: 1
   enemy: {fileID: 11400000, guid: 057875ae7f244413e9348189c2c1d7c0, type: 2}
 --- !u!4 &260504014
