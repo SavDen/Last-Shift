@@ -34,18 +34,20 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     private void Awake()
     {
+    }
+
+    [ObserversRpc]
+    public void Initialized(EnemyData enemyData)
+    {
+        _enemyData = enemyData;
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         
         _enemyView.Init(GetComponent<Animator>(),
             GetComponentsInChildren<Rigidbody>().ToList(),
             GetComponentsInChildren<Collider>().ToList(),
             GetComponent<CapsuleCollider>());
-    }
-
-    public void Initialized(EnemyData enemyData)
-    {
-        _enemyData = enemyData;
-
+        
         _health.Value = _enemyData.Health;
         
         _navMeshAgent.speed = Random.Range(_enemyData.Speed - 0.5f, _enemyData.Speed + 1);
