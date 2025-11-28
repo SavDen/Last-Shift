@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -6,6 +7,7 @@ using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyBase : EntityBase, ISmokeDamageable
 {
@@ -30,22 +32,26 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     
     public bool IsDead() => _isDead.Value;
 
+    private void Awake()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        
+        _enemyView.Init(GetComponent<Animator>(),
+            GetComponentsInChildren<Rigidbody>().ToList(),
+            GetComponentsInChildren<Collider>().ToList(),
+            GetComponent<CapsuleCollider>());
+    }
+
     public void Initialized(EnemyData enemyData)
     {
         _enemyData = enemyData;
 
         _health.Value = _enemyData.Health;
-
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        
         _navMeshAgent.speed = Random.Range(_enemyData.Speed - 0.5f, _enemyData.Speed + 1);
         _navMeshAgent.stoppingDistance = _enemyData.StopDis;
         _navMeshAgent.radius = 0.3f;
         _navMeshAgent.avoidancePriority = Random.Range(_enemyData.MinPriority, _enemyData.MaxPriority);
-
-        _enemyView.Init(GetComponent<Animator>(),
-            GetComponentsInChildren<Rigidbody>().ToList(),
-            GetComponentsInChildren<Collider>().ToList(),
-            GetComponent<CapsuleCollider>());
 
         _follow = true;
     }
@@ -67,8 +73,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     {
         while(_follow && !_isDead.Value && _target != null)
         {
-
-            print("Follow");
+            
             _navMeshAgent.SetDestination(_target.position);
 
             _enemyView.StateRun(_navMeshAgent.velocity.magnitude > 0.5f);
