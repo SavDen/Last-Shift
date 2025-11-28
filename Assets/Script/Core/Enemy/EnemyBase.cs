@@ -108,14 +108,14 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     {
         _health.Value -= damage;
 
-        EffectDamage(typeDamage);
+        EffectDamageObserversRpc(typeDamage);
 
         if (_health.Value <= 0)
         {
             _follow = false;
             _isDead.Value = true;
             StopAllCoroutines();
-            Dead();
+            DeadObserversRpc();
         }
 
     }
@@ -135,7 +135,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
 
     [ObserversRpc]
-    public virtual void EffectDamage(TypeDamage typeDamage)
+    public virtual void EffectDamageObserversRpc(TypeDamage typeDamage)
     {
         switch (typeDamage)
         {
@@ -151,7 +151,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     }
 
     [ObserversRpc]
-    private void Dead()
+    private void DeadObserversRpc()
     {
         _navMeshAgent.enabled = false;
         _enemyView.Dead();
