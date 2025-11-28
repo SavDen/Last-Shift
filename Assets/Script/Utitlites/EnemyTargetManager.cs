@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FishNet;
+using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using UnityEngine;
 
 public class EnemyTargetManager : NetworkBehaviour
@@ -13,8 +16,20 @@ public class EnemyTargetManager : NetworkBehaviour
     {
         base.OnStartServer();
         StartCoroutine(UpdateTargetsCorutine());
+
+        InstanceFinder.ServerManager.OnRemoteConnectionState += RemovePlayer;
     }
-    
+
+    private void RemovePlayer(NetworkConnection arg1, RemoteConnectionStateArgs arg2)
+    {
+        if (arg2.ConnectionState == RemoteConnectionState.Stopped)
+        {
+            StopAllCoroutines();
+            _targets.RemoveAt(_targets.IndexOf(arg1.FirstObject.GetComponent<PlayerController>()));
+            StartCoroutine(UpdateTargetsCorutine());
+        }
+    }
+
     [Server] 
     public void RegisterTarget(PlayerController target)
     {

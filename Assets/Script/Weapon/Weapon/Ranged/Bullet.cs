@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out IDamage damage))
+        if (collision.gameObject.TryGetComponent(out EnemyBase damage))
         {
             damage.TakeDamage(_damage, TypeDamage.Blood);
             Destroy(gameObject);

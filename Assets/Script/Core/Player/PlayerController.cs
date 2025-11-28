@@ -180,11 +180,12 @@ public class PlayerController : EntityBase
 
         Turn();
         
-        //ShootWeapon();
+        ShootWeapon();
 
         //weaponController.ShowTrRender(transform);
     }
 
+    //[ServerRpc]
     private void ShootWeapon()
     {
         if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)

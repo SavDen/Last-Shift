@@ -50,7 +50,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     
     public void GetTarget(Transform target)
     {
-        if (_smokeCorutine != null)
+        if (_smokeCorutine == null)
         {
             _target = target;    
         }
