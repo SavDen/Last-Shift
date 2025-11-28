@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,19 +22,19 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     private Coroutine _flashCorutine;
 
     private int _selectTarget;
-    
-    private float _health;
+
+    private readonly SyncVar<float> _health = new ();
 
     private bool _follow;
-    private bool _isDead;
+    private readonly SyncVar<bool> _isDead = new();
     
-    public bool IsDead() => _isDead;
+    public bool IsDead() => _isDead.Value;
 
     public void Initialized(EnemyData enemyData)
     {
         _enemyData = enemyData;
 
-        _health = _enemyData.Health;
+        _health.Value = _enemyData.Health;
 
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = Random.Range(_enemyData.Speed - 0.5f, _enemyData.Speed + 1);
@@ -63,7 +65,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     private IEnumerator Follow()
     {
-        while(_follow && !_isDead && _target != null)
+        while(_follow && !_isDead.Value && _target != null)
         {
 
             print("Follow");
@@ -87,7 +89,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     private IEnumerator AttackCorutine()
     {
-        while(!_follow && !_isDead)
+        while(!_follow && !_isDead.Value)
         {
             _enemyView.AnimAttack();
             _navMeshAgent.updateRotation = true;
@@ -104,14 +106,14 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     public override void TakeDamage(float damage, TypeDamage typeDamage)
     {
-        _health -= damage;
+        _health.Value -= damage;
 
         EffectDamage(typeDamage);
 
-        if (_health <= 0)
+        if (_health.Value <= 0)
         {
             _follow = false;
-            _isDead = true;
+            _isDead.Value = true;
             StopAllCoroutines();
             Dead();
         }
@@ -132,6 +134,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
     }
 
 
+    [ObserversRpc]
     public virtual void EffectDamage(TypeDamage typeDamage)
     {
         switch (typeDamage)
@@ -147,6 +150,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
         }
     }
 
+    [ObserversRpc]
     private void Dead()
     {
         _navMeshAgent.enabled = false;
