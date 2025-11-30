@@ -59,15 +59,22 @@ public class PlayerController : EntityBase
         _isShooting = context.performed;
     }
 
+    
     public void OnMeleeAttack(InputAction.CallbackContext context)
     {
         if(context.started && Time.time >= _nextMeleeAttack + PlayerData.MeleeWeaponData.coolDown && !_isChange)
         {
-            float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
-            MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
-            _nextMeleeAttack = Time.time + timeAnim;
+            MeleeAttackObserverRpc();
         }
 
+    }
+    
+    [ObserversRpc]
+    private void MeleeAttackObserverRpc()
+    {
+        float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
+        MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
+        _nextMeleeAttack = Time.time + timeAnim;
     }
 
     public void OnGrenade(InputAction.CallbackContext context)
@@ -96,27 +103,37 @@ public class PlayerController : EntityBase
     {
         if (context.started && !_isMeleeAttack && !_isChange)
         {
-            _isChange = true;
-            if(_isReloading)
-            {
-                StopReload();
-            }
-
-            weaponController.ChangeWeapon();
-            StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
-            {
-                _isChange = IsChanged;
-            }));
-
+            ChangeWeaponObserverRpc();
         }
+    }
+    
+    [ObserversRpc]
+    private void ChangeWeaponObserverRpc()
+    {
+        _isChange = true;
+        if(_isReloading)
+        {
+            StopReload();
+        }
+
+        weaponController.ChangeWeapon();
+        StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
+        {
+            _isChange = IsChanged;
+        }));
     }
 
     public void OnReload(InputAction.CallbackContext context)
     {
         if (context.started && !_isReloading && !_isChange && !_isMeleeAttack)
         {
-            _reloadCorutine = StartCoroutine(Reload());
+            ReloadObserverRpc();
         }
+    }
+
+    private void ReloadObserverRpc()
+    {
+        _reloadCorutine = StartCoroutine(Reload());
     }
 
     public void OnChangeScheme(PlayerInput playerInput)
@@ -264,6 +281,7 @@ public class PlayerController : EntityBase
 
     }
 
+    [ObserversRpc]
     private void StopReload()
     {
         StopCoroutine(_reloadCorutine);
@@ -279,6 +297,7 @@ public class PlayerController : EntityBase
         EffectDamage(typeDamage);
     }
 
+    [ObserversRpc]
     private void EffectDamage(TypeDamage typeDamage)
     {
         switch (typeDamage)
