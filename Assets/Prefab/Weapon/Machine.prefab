@@ -338,7 +338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb52909eea29f44259a082de8a11f7b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: e7b05449655054d63818584a8c7e528d, type: 2}
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   handsPos:
   - {fileID: 243923806815269939}
   - {fileID: 3686166225644396520}

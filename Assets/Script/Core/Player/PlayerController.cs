@@ -166,7 +166,8 @@ public class PlayerController : EntityBase
             PlayerData.CountExplode,
             PlayerData.CountSmok,
             PlayerData.CountFlash,
-            lineRenderer);
+            lineRenderer,
+            Owner);
     }
 
     private void Update()

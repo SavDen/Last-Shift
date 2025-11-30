@@ -1,6 +1,8 @@
+using FishNet.Connection;
 using UnityEngine;
 
-public interface IShootableWeapon : IWeapon
+public interface 
+    IShootableWeapon : IWeapon
 {
     ///Logic
     public float Cooldown { get; }
@@ -13,7 +15,7 @@ public interface IShootableWeapon : IWeapon
     public Transform[] HandsPos { get; }
 
 
-    void Init(ShotableData data);
+    void Init(ShotableData datam);
 
     void Shoot();
 

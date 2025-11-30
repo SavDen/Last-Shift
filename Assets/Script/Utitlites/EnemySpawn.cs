@@ -12,7 +12,8 @@ public class EnemySpawn : NetworkBehaviour
     public bool spawn;
     public EnemyData enemy;
     
-    [Inject] private readonly EnemyTargetManager _enemyTargetManager;
+    [Inject] private readonly EnemyTargetManager _enemyTargetManager;   
+    
 
     public override void OnStartServer()
     {

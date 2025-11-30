@@ -1,25 +1,34 @@
+using FishNet;
+using FishNet.Object;
+using FishNet.Connection;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     private float _damage;
+    private NetworkConnection _owner;
 
-    public void InitBullet(float damage)
+    public void InitBullet(float damage, NetworkConnection  owner)
     {
         _damage = damage;
+        _owner = owner;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out EnemyBase damage))
+        if (collision.gameObject.TryGetComponent(out IDamage damage))
         {
+            if (collision.gameObject.GetComponent<PlayerController>())
+            {
+                return;
+            }
             damage.TakeDamage(_damage, TypeDamage.Blood);
-            Destroy(gameObject);
+            InstanceFinder.ServerManager.Despawn(gameObject);
         }
 
         else
         {
-            Destroy(gameObject);
+            InstanceFinder.ServerManager.Despawn(gameObject);
         }
     }
 }

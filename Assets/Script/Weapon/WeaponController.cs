@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using FishNet.Connection;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,7 +31,7 @@ public class WeaponController
         MeleeWeapon meleeWeapon, MeleeWeaponData meleeWeaponData,
         ThrowableWeaponData[] throwableWeaponData,
         int explodeCount, int smokeCount, int flashCount,
-        LineRenderer lineRenderer)
+        LineRenderer lineRenderer, NetworkConnection owner)
     {
         mainSlot = main;
         mainSlot.Init(mainData);

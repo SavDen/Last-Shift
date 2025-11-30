@@ -1,4 +1,8 @@
 //using System;
+
+using FishNet;
+using FishNet.Connection;
+using FishNet.Object;
 using UnityEngine;
 
 public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
@@ -8,6 +12,8 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     [SerializeField] private Transform _billetPos;
 
     private RangedWeaponData _data;
+
+    private NetworkConnection _owner;
 
     private float _ammo;
     private float _ammoCapacity;
@@ -31,6 +37,11 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         _data = data as RangedWeaponData;
         _ammo = _data.Ammo;
         _ammoCapacity = _data.AmmoCapacity;
+    }
+
+    public void Init(ShotableData datam, Unity.Networking.Transport.NetworkConnection owner)
+    {
+        throw new System.NotImplementedException();
     }
 
     public void Shoot()
@@ -67,11 +78,13 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         CreateOneBullet();
     }
 
+    
     private void CreateOneBullet()
     {
         var newBullet = Instantiate(_data.bullet, _billetPos.position, _billetPos.rotation);
         newBullet.transform.Rotate(new Vector3(0, Random.Range(-_data.rangedBullet, _data.rangedBullet), 0));
-        newBullet.GetComponent<Bullet>().InitBullet(_data.baseDamage);
+        InstanceFinder.ServerManager.Spawn(newBullet);
+        newBullet.GetComponent<Bullet>().InitBullet(_data.baseDamage, _owner);
         newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * _data.bulletSpeed, ForceMode.Impulse);
     }
 

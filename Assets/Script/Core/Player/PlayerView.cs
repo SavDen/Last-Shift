@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FishNet.Component.Animating;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Random = UnityEngine.Random;
@@ -66,7 +67,7 @@ public class PlayerView: ICombinedDamageable
 
         rig.enabled = true;
     }
-
+    
     public IEnumerator ChangeWeaponView(Action<bool> IsChanged)
     {
         RigEnable(false);

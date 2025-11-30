@@ -1,4 +1,5 @@
 using System;
+using FishNet.Connection;
 using UnityEngine;
 
 public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
@@ -63,8 +64,13 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         var takeDamageColliders = Physics.OverlapSphere(pointParticle.position + pointParticle.forward, 1);
         foreach(var collider in takeDamageColliders)
         {
-            if(collider.transform.TryGetComponent(out IDamage damage))
+            if(collider.TryGetComponent(out IDamage damage))
             {
+                if (collider.GetComponent<PlayerController>())
+                {
+                    return;
+                }
+                
                 damage.TakeDamage(_data.baseDamage * Time.deltaTime, TypeDamage.Fire);
             }
         }

@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb52909eea29f44259a082de8a11f7b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedWeapon
-  data: {fileID: 11400000, guid: 97cbc831bf3b04e8d9d580a8a82f1320, type: 2}
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   handsPos:
   - {fileID: 1947501138248655589}
   - {fileID: 2456188497810727411}

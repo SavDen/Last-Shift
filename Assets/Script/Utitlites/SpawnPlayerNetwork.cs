@@ -8,9 +8,10 @@ using Zenject;
 
 public class SpawnPlayerNetwork : NetworkBehaviour 
 {
-    [Inject] private readonly EnemyTargetManager  targetManager;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Transform[]  _spawnPoints;
+    
+    [Inject] private readonly EnemyTargetManager  targetManager;
 
     public override void OnStartServer()
     {
