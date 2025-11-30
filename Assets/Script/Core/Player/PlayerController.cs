@@ -133,12 +133,12 @@ public class PlayerController : EntityBase
     {
         if (context.started && !_isReloading && !_isChange && !_isMeleeAttack)
         {
-            ReloadObserverRpc();
+            ReloadServerRpc();
         }
     }
 
-    [ObserversRpc]
-    private void ReloadObserverRpc()
+    [ServerRpc]
+    private void ReloadServerRpc()
     {
         _reloadCorutine = StartCoroutine(Reload());
     }
@@ -273,19 +273,25 @@ public class PlayerController : EntityBase
         speedAnim, timeAnim));
         weaponController.MelleAttack();
     }
-
+    
     private IEnumerator Reload()
     {
 
         _isReloading = true;
 
-        playerView.AnimReload(true);
+        AnimReloadObserverRpc(true);
         yield return new WaitForSeconds(weaponController.ReloadTimeWeapon - playerModel.ReloadTime);
-        playerView.AnimReload(false);
+        AnimReloadObserverRpc(false);
         weaponController.Reload();
 
         _isReloading = false;
 
+    }
+
+    [ObserversRpc]
+    private void AnimReloadObserverRpc(bool isReload)
+    {
+        playerView.AnimReload(isReload);
     }
 
     [ObserversRpc]
