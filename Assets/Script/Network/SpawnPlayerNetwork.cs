@@ -21,7 +21,7 @@ public class SpawnPlayerNetwork : NetworkBehaviour
 
     private IEnumerator SpawnAllPlayers()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
 
         int spawnIndex = 0;
 

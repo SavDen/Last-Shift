@@ -182,10 +182,10 @@ public class PlayerController : EntityBase
         
         ShootWeapon();
 
-        //weaponController.ShowTrRender(transform);
+        weaponController.ShowTrRender(transform);
     }
 
-    //[ServerRpc]
+    [ServerRpc]
     private void ShootWeapon()
     {
         if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)

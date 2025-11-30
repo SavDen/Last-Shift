@@ -22,7 +22,7 @@ public class EnemySpawn : NetworkBehaviour
 
     private IEnumerator DelaySpawnEnemy()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         StartCoroutine(Spawn());
     }
 

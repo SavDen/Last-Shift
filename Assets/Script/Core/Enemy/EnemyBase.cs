@@ -34,19 +34,17 @@ public class EnemyBase : EntityBase, ISmokeDamageable
 
     private void Awake()
     {
-    }
-
-    [ObserversRpc]
-    public void Initialized(EnemyData enemyData)
-    {
-        _enemyData = enemyData;
-
         _navMeshAgent = GetComponent<NavMeshAgent>();
         
         _enemyView.Init(GetComponent<Animator>(),
             GetComponentsInChildren<Rigidbody>().ToList(),
             GetComponentsInChildren<Collider>().ToList(),
             GetComponent<CapsuleCollider>());
+    }
+
+    public void Initialized(EnemyData enemyData)
+    {
+        _enemyData = enemyData;
         
         _health.Value = _enemyData.Health;
         
@@ -111,6 +109,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public override void TakeDamage(float damage, TypeDamage typeDamage)
     {
         _health.Value -= damage;

@@ -149,8 +149,8 @@ public class PlayerModel
             _health -= damage;
         }
 
-        _playerUIHub.UpdateSliders(_health, _armor);
+        //_playerUIHub.UpdateSliders(_health, _armor);
 
-        Debug.Log($"{_health}");
+        // Debug.Log($"{_health}");
     }
 }

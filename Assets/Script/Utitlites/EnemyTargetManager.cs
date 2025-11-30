@@ -9,8 +9,8 @@ using UnityEngine;
 
 public class EnemyTargetManager : NetworkBehaviour
 {
-    private readonly  List<PlayerController> _targets = new();
-    private readonly List<EnemyBase> _enemys = new ();
+   [SerializeField] private List<PlayerController> _targets = new();
+   [SerializeField] private  List<EnemyBase> _enemys = new ();
 
     public override void OnStartServer()
     {
@@ -47,6 +47,8 @@ public class EnemyTargetManager : NetworkBehaviour
     [Server]
     private IEnumerator UpdateTargetsCorutine()
     {
+        yield return new WaitForSeconds(0.5f); //delay for init first enemy
+        
         while (true)
         {
             UpdateTargets();
