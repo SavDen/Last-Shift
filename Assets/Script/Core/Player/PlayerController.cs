@@ -103,12 +103,12 @@ public class PlayerController : EntityBase
     {
         if (context.started && !_isMeleeAttack && !_isChange)
         {
-            ChangeWeaponObserverRpc();
+            ChangeWeaponServerRpc();
         }
     }
     
-    [ObserversRpc]
-    private void ChangeWeaponObserverRpc()
+    [ServerRpc]
+    private void ChangeWeaponServerRpc()
     {
         _isChange = true;
         if(_isReloading)
@@ -117,6 +117,12 @@ public class PlayerController : EntityBase
         }
 
         weaponController.ChangeWeapon();
+        ChangeWeaponObserverRpc();
+    }
+
+    [ObserversRpc]
+    private void ChangeWeaponObserverRpc()
+    {
         StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
         {
             _isChange = IsChanged;
@@ -131,6 +137,7 @@ public class PlayerController : EntityBase
         }
     }
 
+    [ObserversRpc]
     private void ReloadObserverRpc()
     {
         _reloadCorutine = StartCoroutine(Reload());
