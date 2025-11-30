@@ -136,19 +136,23 @@ public class PlayerController : EntityBase
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!IsOwner)
+        
+        if (IsOwner)
+        {
+            var camera= FindFirstObjectByType<CinemachineVirtualCamera>();
+
+            if (camera != null)
+            {
+                camera.Follow = transform;
+                camera.LookAt = transform;   
+            }
+        }
+        else
         {
             GetComponent<PlayerInput>().enabled = false;
             GetComponent<FlashVolumeEffect>().enabled = false;
-            GetComponent<PlayerController>().enabled = false;
-            return;
+            GetComponent<PlayerController>().enabled = false;   
         }
-        
-        var camera= FindFirstObjectByType<CinemachineVirtualCamera>();
-        camera.Follow = transform;
-        camera.LookAt = transform;
-
-
     }
 
     private void Awake()

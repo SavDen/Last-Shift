@@ -87,13 +87,8 @@ public class LobbyManager : NetworkBehaviour
 
         NetworkObject playerObj = Instantiate(playerPrefab, spwnPos, Quaternion.identity);
     
-        Debug.Log($"До спавна: conn.ClientId = {conn.ClientId}, playerObj.Owner = {playerObj.Owner?.ClientId}");
-    
         InstanceFinder.ServerManager.Spawn(playerObj, conn);
         
-        print($"{InstanceFinder.ServerManager.Clients.Count}");
-    
-        Debug.Log($"После спавна: conn.ClientId = {conn.ClientId}, playerObj.Owner = {playerObj.Owner?.ClientId}");
 
     }
     
