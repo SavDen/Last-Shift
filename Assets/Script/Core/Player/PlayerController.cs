@@ -190,18 +190,33 @@ public class PlayerController : EntityBase
         weaponController.ShowTrRender(transform);
     }
 
-    [ServerRpc]
+   
     private void ShootWeapon()
     {
         if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
         {
-            weaponController.Shoot();
+            ShootServerRpc();
         }
 
         else
         {
-            weaponController.StopShoot();
+            StopShootServerRpc();
         }
+    }
+
+    [ServerRpc]
+    private void ShootServerRpc()
+    {
+        
+        print("получен на сервере Shoot");
+        weaponController.Shoot();
+    }
+
+    [ServerRpc]
+    private void StopShootServerRpc()
+    {
+        print("получен на сервере Stop");
+        weaponController.StopShoot();
     }
 
     private void Turn()
