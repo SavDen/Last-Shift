@@ -215,6 +215,7 @@ public class PlayerController : EntityBase
     }
 
    
+    [ServerRpc]
     private void ShootWeapon()
     {
         if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
@@ -228,7 +229,7 @@ public class PlayerController : EntityBase
         }
     }
 
-    [ServerRpc]
+    [ObserversRpc]
     private void ShootServerRpc()
     {
         
@@ -236,7 +237,7 @@ public class PlayerController : EntityBase
         weaponController.Shoot();
     }
 
-    [ServerRpc]
+    [ObserversRpc]
     private void StopShootServerRpc()
     {
         print("получен на сервере Stop");
