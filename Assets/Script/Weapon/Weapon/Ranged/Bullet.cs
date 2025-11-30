@@ -18,10 +18,6 @@ public class Bullet : NetworkBehaviour
     {
         if (collision.gameObject.TryGetComponent(out IDamage damage))
         {
-            if (collision.gameObject.GetComponent<PlayerController>())
-            {
-                return;
-            }
             damage.TakeDamage(_damage, TypeDamage.Blood);
             InstanceFinder.ServerManager.Despawn(gameObject);
         }
