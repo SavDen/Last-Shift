@@ -75,6 +75,12 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
             }
         }
     }
+    
+    
+    public void StartParticle()
+    {
+        _fire.Play();
+    }
 
     public void StopParticle()
     {
