@@ -53,6 +53,16 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         }
     }
 
+    public void StartParticle()
+    {
+        
+    }
+
+    public void StopParticle()
+    {
+        
+    }
+
     private void TypeShoot()
     {
         switch(_data.typeShoot)

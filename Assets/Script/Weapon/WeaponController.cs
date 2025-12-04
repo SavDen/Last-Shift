@@ -96,28 +96,18 @@ public class WeaponController
 
     public void Shoot()
     {
-        if(!selectWeapon.IsNeedReload)
-        {
-            if(_isStopParticleWeapon)
-            {
-                _isStopParticleWeapon = false;
-            }
-            selectWeapon.Shoot();
-            weaponControllerView.UpdateAmmoWeapon(selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity);
-        }
+        selectWeapon.Shoot();
+        weaponControllerView.UpdateAmmoWeapon(selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity);
+    }
+
+    public void StartShoot()
+    {
+        selectWeapon.StartParticle();
     }
 
     public void StopShoot()
     {
-        if(!_isStopParticleWeapon)
-        {
-            if (selectWeapon != null && selectWeapon is ParticleWeapon)
-            {
-                var particleWeapon = selectWeapon as ParticleWeapon;
-                particleWeapon.StopParticle();
-                _isStopParticleWeapon = true;
-            }
-        }
+        selectWeapon.StopParticle();
     }
 
     internal void ChageGrenade()
@@ -129,6 +119,9 @@ public class WeaponController
 
     public void ChangeWeapon()
     {
+        
+        StopShoot();
+        
         if (selectWeapon == mainSlot)
         {
             selectWeapon = additionalSlot;
@@ -139,7 +132,6 @@ public class WeaponController
             selectWeapon = mainSlot;
         }
 
-        StopShoot();
 
         weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
             selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,

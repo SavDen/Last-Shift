@@ -19,6 +19,10 @@ public interface
 
     void Shoot();
 
+    void StartParticle();
+    
+    void StopParticle();
+
     void ReloadWeapon();
 
 }
