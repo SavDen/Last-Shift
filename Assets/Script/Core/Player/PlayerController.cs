@@ -40,6 +40,8 @@ public class PlayerController : EntityBase
     private bool _isChange;
     private bool _isMeleeAttack;
 
+    private bool _isStopedShoot;
+
     public bool IsDead() => playerModel.IsDead();
 
     #region InputSystem
@@ -64,17 +66,9 @@ public class PlayerController : EntityBase
     {
         if(context.started && Time.time >= _nextMeleeAttack + PlayerData.MeleeWeaponData.coolDown && !_isChange)
         {
-            MeleeAttackObserverRpc();
+            MeleeAttackServerRpc();
         }
 
-    }
-    
-    [ObserversRpc]
-    private void MeleeAttackObserverRpc()
-    {
-        float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
-        MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
-        _nextMeleeAttack = Time.time + timeAnim;
     }
 
     public void OnGrenade(InputAction.CallbackContext context)
@@ -103,30 +97,10 @@ public class PlayerController : EntityBase
     {
         if (context.started && !_isMeleeAttack && !_isChange)
         {
+            _isChange = true;
+            print(Time.time);
             ChangeWeaponServerRpc();
         }
-    }
-    
-    [ServerRpc]
-    private void ChangeWeaponServerRpc()
-    {
-        _isChange = true;
-        if(_isReloading)
-        {
-            StopReload();
-        }
-
-        weaponController.ChangeWeapon();
-        ChangeWeaponObserverRpc();
-    }
-
-    [ObserversRpc]
-    private void ChangeWeaponObserverRpc()
-    {
-        StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
-        {
-            _isChange = IsChanged;
-        }));
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -135,12 +109,6 @@ public class PlayerController : EntityBase
         {
             ReloadServerRpc();
         }
-    }
-
-    [ServerRpc]
-    private void ReloadServerRpc()
-    {
-        _reloadCorutine = StartCoroutine(Reload());
     }
 
     public void OnChangeScheme(PlayerInput playerInput)
@@ -200,6 +168,8 @@ public class PlayerController : EntityBase
 
     private void Update()
     {
+        //print($"{_isShooting} , {_isChange} , {_isMeleeAttack} , {_isReloading}");
+        
         if (!IsOwner)
         {
             return;
@@ -213,44 +183,13 @@ public class PlayerController : EntityBase
 
         weaponController.ShowTrRender(transform);
     }
-
-   
-    private void ShootWeapon()
+    
+    //Network Transform Sync
+    private void Move()
     {
-        if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
-        {
-            ShootServerRpc();
-            ShootEffectView(true);
-        }
-
-        else
-        {
-            ShootEffectView(false);
-        }
+        playerModel.Move(_moveInput);
+        playerView.AnimMove(playerModel.VelocityX, playerModel.VelocityY);
     }
-
-    [ServerRpc]
-    private void ShootServerRpc()
-    {
-        weaponController.Shoot();
-    }
-        
-
-    [ObserversRpc]
-    private void ShootEffectView(bool isShoot)
-    {
-        if (isShoot)
-        {
-            weaponController.StartShoot();    
-        }
-
-        else
-        {
-            weaponController.StopShoot();
-        }
-        
-    }
-
     private void Turn()
     {
         if (_lookInput != Vector2.zero)
@@ -259,27 +198,128 @@ public class PlayerController : EntityBase
         }
     }
 
-    private void Move()
+   
+    [ServerRpc]
+    private void ShootWeapon()
     {
-        playerModel.Move(_moveInput);
-        playerView.AnimMove(playerModel.VelocityX, playerModel.VelocityY);
-    }
+        if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
+        {
+            ShootServerRpc(true);
+            _isStopedShoot = false;
+        }
 
+        else
+        {
+            if (!_isStopedShoot)
+            {
+                ShootServerRpc(false);
+                _isStopedShoot = true;
+            }
+        }
+    }
+    
+    [ServerRpc]
+    private void ShootServerRpc(bool state)
+    {
+        if (state)
+        {
+            weaponController.Shoot();
+        
+            ShootEffectViewObserverRpc(true);
+        }
+
+        else
+        {
+            ShootEffectViewObserverRpc(false);
+        }
+    }
+    
+    [ObserversRpc]
+    private void ShootEffectViewObserverRpc(bool state)
+    {
+        if (state)
+        {
+            weaponController.StartShootParticle();    
+        }
+
+        else
+        {
+            //print("Stop Shoot Particle");
+            weaponController.StopShootParticle();
+        }
+        
+    }
+    
+   
+    [ServerRpc]
+    private void MeleeAttackServerRpc()
+    {
+        float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
+        MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
+        _nextMeleeAttack = Time.time + timeAnim;
+    }
+    
+    [ServerRpc]
     private void MaleeAttack(float speedAnim,float timeAnim)
     {
+        
         _isMeleeAttack = true;
 
         if(_isReloading)
         {
-            StopReload();
+            StopReloadServerRpc();
         }
+        
+        MeleeAttackObserverRpc(speedAnim, timeAnim);
+        StartCoroutine(MeleeAttackLogicCorutine());
+    }
 
-        StartCoroutine(playerView.MeleeAttackCorutine((IsMelleAttackState)=>
-        {
-             _isMeleeAttack = IsMelleAttackState;
-        },
-        speedAnim, timeAnim));
+    private IEnumerator MeleeAttackLogicCorutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        print("Start Logic Attack Mele");
         weaponController.MelleAttack();
+    }
+
+    [ObserversRpc]
+    private void MeleeAttackObserverRpc(float speedAnim, float timeAnim)
+    {
+        StartCoroutine(playerView.MeleeAttackCorutine((IsMelleAttackState)=>
+            {
+                _isMeleeAttack = IsMelleAttackState;
+            },
+            speedAnim, timeAnim));
+        
+        print("End PlayerView Attack Mele");
+    }
+    
+    [ServerRpc]
+    private void ChangeWeaponServerRpc()
+    {
+        _isChange = true;
+        
+        ShootEffectViewObserverRpc(false);
+        if(_isReloading)
+        {
+            StopReloadServerRpc();
+        }
+        weaponController.ChangeWeapon();
+        ChangeWeaponObserverRpc();
+    }
+
+    [ObserversRpc]
+    private void ChangeWeaponObserverRpc()
+    {
+        StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
+        {
+            _isChange = IsChanged;
+        }));
+    }
+    
+    [ServerRpc]
+    private void ReloadServerRpc()
+    {
+        _reloadCorutine = StartCoroutine(Reload());
     }
     
     private IEnumerator Reload()
@@ -301,16 +341,20 @@ public class PlayerController : EntityBase
     {
         playerView.AnimReload(isReload);
     }
-
-    [ObserversRpc]
-    private void StopReload()
+    
+    [ServerRpc]
+    private void StopReloadServerRpc()
     {
-        StopCoroutine(_reloadCorutine);
-        playerView.AnimReload(false);
-        _isReloading = false;
-        _reloadCorutine = null;
+        if (_isReloading)
+        {
+            //print("Enter Reload?");
+            AnimReloadObserverRpc(false);
+            StopCoroutine(_reloadCorutine);
+             _isReloading = false;
+        }
     }
 
+    [ServerRpc]
     public override void TakeDamage(float damage, TypeDamage typeDamage)
     {
         playerModel.TakeDamage(damage);

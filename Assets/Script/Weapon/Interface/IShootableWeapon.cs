@@ -6,7 +6,7 @@ public interface
 {
     ///Logic
     public float Cooldown { get; }
-    public bool IsNeedReload { get; }
+    public bool IsNeedIsNeedReload { get; }
     public float ReloadTimeWeapon { get; }
     //View
     public Sprite IconWeapon { get; }

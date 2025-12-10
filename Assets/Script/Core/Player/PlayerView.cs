@@ -126,6 +126,8 @@ public class PlayerView: ICombinedDamageable
 
     public IEnumerator MeleeAttackCorutine(Action<bool> IsMeleeAtackState, float speedAnim, float timeAnim)
     {
+        yield return new WaitForSeconds(0.1f);
+        
         _meleeWeapon.gameObject.SetActive(true);
         animator.SetFloat("MeleeSpeed", speedAnim);
         animator.SetTrigger("MeleeAttack");
@@ -139,7 +141,7 @@ public class PlayerView: ICombinedDamageable
         IsMeleeAtackState?.Invoke(false);
     }
 
-    internal void AnimReload(bool state)
+    public void AnimReload(bool state)
     {
         if(state)
         {

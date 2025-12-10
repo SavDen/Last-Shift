@@ -100,14 +100,16 @@ public class WeaponController
         weaponControllerView.UpdateAmmoWeapon(selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity);
     }
 
-    public void StartShoot()
+    public void StartShootParticle()
     {
         selectWeapon.StartParticle();
+        
     }
 
-    public void StopShoot()
+    public void StopShootParticle()
     {
-        selectWeapon.StopParticle();
+        mainSlot.StopParticle();
+        additionalSlot.StopParticle();
     }
 
     internal void ChageGrenade()
@@ -119,9 +121,6 @@ public class WeaponController
 
     public void ChangeWeapon()
     {
-        
-        StopShoot();
-        
         if (selectWeapon == mainSlot)
         {
             selectWeapon = additionalSlot;
