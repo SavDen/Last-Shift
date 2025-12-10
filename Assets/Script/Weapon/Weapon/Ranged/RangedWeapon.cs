@@ -23,7 +23,7 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     //Logic
     public float Cooldown => _data.coolDown;
-    public bool IsNeedReload => EmptyAmmo;
+    public bool IsNeedIsNeedReload => EmptyAmmo;
     public float ReloadTimeWeapon => _data.reloadTime;
     //View
     public Sprite IconWeapon => _data.icon;

@@ -8,14 +8,14 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     public Transform[] handsPos;
 
     private ParticleWeaponData _data;
-    private bool reload;
+    private bool _isNeedReload;
     private float _ammo;
     private float _ammoCapacity;
     private ParticleSystem _fire;
 
     ///Logic
     public float Cooldown => _data.reloadTime;
-    public bool IsNeedReload => reload;
+    public bool IsNeedIsNeedReload => _isNeedReload;
     public float ReloadTimeWeapon => _data.reloadTime;
 
     //View
@@ -34,16 +34,9 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void Shoot()
     {
-        if (_ammo > 0)
+        if (!_isNeedReload)
         {
-            //particle on
-            if(_fire.isStopped)
-            {
-
-                print("start");
-                _fire.Play();
-            }
-
+            //print("Shoot");
             CheakDamage();
 
             _ammo -= Time.deltaTime * 5;
@@ -51,7 +44,7 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
             if (_ammo <= 0)
             {
                 //_fire.Stop();
-                reload = true;
+                _isNeedReload = true;
                 StopParticle();
             }
         }
@@ -80,15 +73,12 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     public void StartParticle()
     {
         _fire.Play();
+        Debug.Log("StartParticle in weapon " + Time.time);
     }
 
     public void StopParticle()
     {
-        Debug.Log("StopParticle");
-        if(_fire.isPlaying)
-        {
-            _fire.Stop();
-        }
+        _fire.Stop();
 
         //particle stop
     }
@@ -104,10 +94,10 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         else
         {
             _ammo = _data.Ammo;
-            _ammoCapacity -= _ammo;
+            _ammoCapacity -= _data.Ammo;
         }
 
-        reload = false;
+        _isNeedReload = false;
 
     }
 

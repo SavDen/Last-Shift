@@ -16,12 +16,12 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e762ad17ce90847e3b7027ff6969baba, type: 3}
   prefab: {fileID: 3251548487788623873, guid: 4faa5842299964a6ebaf12243d1e4021, type: 3}
   baseDamage: 1
-  coolDown: 0.5
+  coolDown: 0.08
   reloadTime: 3
   weaponHands: 1
-  Ammo: 45
-  AmmoCapacity: 320
+  Ammo: 29800
+  AmmoCapacity: 72651
   typeShoot: 0
   bullet: {fileID: 8877450368381581161, guid: 42ae96793196f4711a6af1cee367d155, type: 3}
-  bulletSpeed: 70
+  bulletSpeed: 23.2
   rangedBullet: 0
