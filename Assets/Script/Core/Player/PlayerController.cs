@@ -190,6 +190,8 @@ public class PlayerController : EntityBase
         playerModel.Move(_moveInput);
         playerView.AnimMove(playerModel.VelocityX, playerModel.VelocityY);
     }
+    
+    //Network Transform Sync
     private void Turn()
     {
         if (_lookInput != Vector2.zero)
@@ -198,8 +200,7 @@ public class PlayerController : EntityBase
         }
     }
 
-   
-    [ServerRpc]
+    
     private void ShootWeapon()
     {
         if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
