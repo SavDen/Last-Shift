@@ -66,7 +66,7 @@ public class PlayerController : EntityBase
     {
         if(context.started && Time.time >= _nextMeleeAttack + PlayerData.MeleeWeaponData.coolDown && !_isChange)
         {
-            MeleeAttackServerRpc();
+            MeleeAttack();
         }
 
     }
@@ -251,17 +251,16 @@ public class PlayerController : EntityBase
         
     }
     
-   
-    [ServerRpc]
-    private void MeleeAttackServerRpc()
+    
+    private void MeleeAttack()
     {
         float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
-        MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
+        MaleeAttackServerRpc(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
         _nextMeleeAttack = Time.time + timeAnim;
     }
     
     [ServerRpc]
-    private void MaleeAttack(float speedAnim,float timeAnim)
+    private void MaleeAttackServerRpc(float speedAnim,float timeAnim)
     {
         
         _isMeleeAttack = true;
