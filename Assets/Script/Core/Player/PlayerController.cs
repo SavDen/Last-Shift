@@ -311,6 +311,7 @@ public class PlayerController : EntityBase
     [ObserversRpc]
     private void ChangeWeaponObserverRpc()
     {
+        weaponController.ChangeWeapon();
         StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
         {
             _isChange = IsChanged;
