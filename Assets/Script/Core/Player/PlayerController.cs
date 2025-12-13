@@ -297,6 +297,12 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void ChangeWeaponServerRpc()
     {
+        ChangeWeaponObserverRpc();
+    }
+
+    [ObserversRpc(RunLocally = true)]
+    private void ChangeWeaponObserverRpc()
+    {
         _isChange = true;
         
         ShootEffectViewObserverRpc(false);
@@ -304,13 +310,6 @@ public class PlayerController : EntityBase
         {
             StopReloadServerRpc();
         }
-        weaponController.ChangeWeapon();
-        ChangeWeaponObserverRpc();
-    }
-
-    [ObserversRpc]
-    private void ChangeWeaponObserverRpc()
-    {
         weaponController.ChangeWeapon();
         StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
         {
