@@ -63,8 +63,14 @@ public class PlayerController : EntityBase
     {
         if (context.performed)
         {
-            SetShootServerRpc(context.performed);
+            SetShootServerRpc(true);
         }
+
+        if (context.canceled)
+        {
+            SetShootServerRpc(false);
+        }
+        
         
     }
 
