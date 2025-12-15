@@ -73,14 +73,11 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     public void StartParticle()
     {
         _fire.Play();
-        Debug.Log("StartParticle in weapon " + Time.time);
     }
 
     public void StopParticle()
     {
         _fire.Stop();
-
-        //particle stop
     }
 
     public void ReloadWeapon()

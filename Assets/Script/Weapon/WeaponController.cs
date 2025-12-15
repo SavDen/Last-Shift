@@ -152,5 +152,9 @@ public class WeaponController
         }
     }
 
-    public void MelleAttack() => _meleeWeapon.ActiveMeleeWeapon();
+    public void MelleAttack()
+    {
+        _meleeWeapon.gameObject.SetActive(true);
+        _meleeWeapon.ActiveMeleeWeapon();   
+    }
 }

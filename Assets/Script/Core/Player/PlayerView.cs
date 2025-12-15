@@ -124,21 +124,18 @@ public class PlayerView: ICombinedDamageable
         bloodEffect[Random.Range(0, bloodEffect.Count)].Play();
     }
 
-    public IEnumerator MeleeAttackCorutine(Action<bool> IsMeleeAtackState, float speedAnim, float timeAnim)
+    public IEnumerator MeleeAttackCorutine(float speedAnim, float timeAnim)
     {
-        yield return new WaitForSeconds(0.1f);
-        
         _meleeWeapon.gameObject.SetActive(true);
         animator.SetFloat("MeleeSpeed", speedAnim);
         animator.SetTrigger("MeleeAttack");
         RigEnable(false);
         mainWPos.gameObject.SetActive(false);
         yield return null;
-        yield return new WaitForSeconds(timeAnim);
+        yield return new WaitForSeconds(timeAnim + 0.2f);
         RigEnable(true);
         mainWPos.gameObject.SetActive(true);
         _meleeWeapon.gameObject.SetActive(false);
-        IsMeleeAtackState?.Invoke(false);
     }
 
     public void AnimReload(bool state)
