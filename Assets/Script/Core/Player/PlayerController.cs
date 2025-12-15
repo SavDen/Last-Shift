@@ -33,6 +33,7 @@ public class PlayerController : EntityBase
     private string _inputDevice;
     private Vector2 _moveInput;
     private Vector2 _lookInput;
+    private bool _localShoot = false;
 
     private float _nextMeleeAttack;
 
@@ -60,10 +61,20 @@ public class PlayerController : EntityBase
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        _isShooting.Value = context.performed;
+        if (context.performed)
+        {
+            SetShootServerRpc(context.performed);
+        }
+        
     }
 
-    
+    [ServerRpc]
+    private void SetShootServerRpc(bool contextPerformed)
+    {
+        _isShooting.Value = contextPerformed;
+    }
+
+
     public void OnMeleeAttack(InputAction.CallbackContext context)
     {
         if(context.started)
