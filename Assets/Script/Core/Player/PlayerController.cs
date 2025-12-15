@@ -43,7 +43,7 @@ public class PlayerController : EntityBase
     private readonly SyncVar<bool> _isChange = new();
     private readonly SyncVar<bool> _isMeleeAttack = new();
 
-    private readonly SyncVar<bool> _isStopedShoot = new();
+    private bool _isStopedShoot;
 
     public bool IsDead() => playerModel.IsDead();
 
@@ -223,15 +223,15 @@ public class PlayerController : EntityBase
         if (_isShooting.Value && !_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
             ShootServerRpc(true);
-            _isStopedShoot.Value = false;
+            _isStopedShoot = false;
         }
 
         else
         {
-            if (!_isStopedShoot.Value)
+            if (!_isStopedShoot)
             {
                 ShootServerRpc(false);
-                _isStopedShoot.Value = true;
+                _isStopedShoot = true;
             }
         }
     }
@@ -315,7 +315,6 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void ChangeWeaponServerRpc()
     {
-        print("Change enter");
         ChangeWeaponInternal();
     }
 
