@@ -183,6 +183,13 @@ public class PlayerController : EntityBase
             PlayerData.CountFlash,
             lineRenderer,
             Owner);
+
+        _indexWeapon.OnChange += ChangeWeaponIndex;
+    }
+
+    private void OnDisable()
+    {
+        _indexWeapon.OnChange -= ChangeWeaponIndex;
     }
 
     private void Update()
@@ -319,6 +326,11 @@ public class PlayerController : EntityBase
     {
         ChangeWeaponInternal();
     }
+    
+    private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
+    {
+        weaponController.ChangeWeapon(newIndex);
+    }
 
     private void ChangeWeaponInternal()
     {
@@ -333,17 +345,12 @@ public class PlayerController : EntityBase
                 StopReload();
             }
         
-            ChangeWeaponController();
+            _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
             ChangeWeaponObserverRpc();   
         }
     }
 
     
-    private void ChangeWeaponController()
-    {
-        _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
-        weaponController.ChangeWeapon(_indexWeapon.Value);
-    }
 
     [ObserversRpc]
     private void ChangeWeaponObserverRpc()
