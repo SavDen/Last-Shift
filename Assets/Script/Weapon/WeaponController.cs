@@ -119,19 +119,21 @@ public class WeaponController
         weaponControllerView.UpodateAmmoThrowable(throwableSlot.IconThrowable, throwableSlot.AmmoThrowable);
     }
 
-    public void ChangeWeapon()
+    public void ChangeWeapon(int indexWeapon)
     {
-        if (selectWeapon == mainSlot)
+        switch (indexWeapon)
         {
-            selectWeapon = additionalSlot;
+            case 0:
+                selectWeapon = mainSlot;
+                break;
+            case 1:
+                selectWeapon = additionalSlot;
+                break;
+            default:
+                selectWeapon = mainSlot;
+                break;
         }
-
-        else
-        {
-            selectWeapon = mainSlot;
-        }
-
-
+        
         weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
             selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,
             throwableSlot.AmmoThrowable);

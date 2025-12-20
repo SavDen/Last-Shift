@@ -38,6 +38,8 @@ public class PlayerController : EntityBase
     private float _nextMeleeAttack;
 
 
+    private readonly SyncVar<int> _indexWeapon = new();
+    
     private readonly SyncVar<bool> _isShooting = new();
     private readonly SyncVar<bool> _isReloading = new();
     private readonly SyncVar<bool> _isChange = new();
@@ -331,9 +333,16 @@ public class PlayerController : EntityBase
                 StopReload();
             }
         
-            weaponController.ChangeWeapon();
+            ChangeWeaponController();
             ChangeWeaponObserverRpc();   
         }
+    }
+
+    
+    private void ChangeWeaponController()
+    {
+        _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
+        weaponController.ChangeWeapon(_indexWeapon.Value);
     }
 
     [ObserversRpc]
