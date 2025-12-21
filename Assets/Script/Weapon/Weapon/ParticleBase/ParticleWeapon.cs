@@ -34,6 +34,8 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void Shoot()
     {
+        Debug.Log($"Shoot + {this.name}");
+
         if (!_isNeedReload)
         {
             //print("Shoot");
@@ -72,6 +74,8 @@ public class ParticleWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     
     public void StartParticle()
     {
+        Debug.Log($"Particle + {this.name}");
+
         _fire.Play();
     }
 

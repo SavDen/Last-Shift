@@ -41,6 +41,7 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void Shoot()
     {
+        Debug.Log($"Shoot + {this.name}");
         if(!EmptyAmmo && CooldownShoot())
         {
             TypeShoot();
@@ -50,7 +51,7 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void StartParticle()
     {
-        
+        Debug.Log($"Particle + {this.name}");
     }
 
     public void StopParticle()

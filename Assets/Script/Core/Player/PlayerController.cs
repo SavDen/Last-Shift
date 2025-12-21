@@ -248,6 +248,11 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void ShootServerRpc(bool state)
     {
+        ShootInternal(state);
+    }
+
+    private void ShootInternal(bool state)
+    {
         if (state)
         {
             weaponController.Shoot();
@@ -260,7 +265,7 @@ public class PlayerController : EntityBase
             ShootEffectViewObserverRpc(false);
         }
     }
-    
+
     [ObserversRpc]
     private void ShootEffectViewObserverRpc(bool state)
     {
