@@ -97,13 +97,14 @@ public class WeaponController
 
     public void Shoot()
     {
+        Debug.Log($"[KIRO] WeaponController.Shoot(), selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         selectWeapon.Shoot();
         weaponControllerView.UpdateAmmoWeapon(selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity);
     }
 
     public void StartShootParticle()
     {
-        Debug.Log($"StartShootParticle: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
+        Debug.Log($"[KIRO] StartShootParticle, selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         selectWeapon.StartParticle();
         
     }
@@ -123,8 +124,8 @@ public class WeaponController
 
     public void ChangeWeapon(int indexWeapon)
     {
-        Debug.Log($"ChangeWeapon called: index={indexWeapon}");
-        Debug.Log($"Before: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
+        Debug.Log($"[KIRO] ChangeWeapon: index={indexWeapon}");
+        Debug.Log($"[KIRO] Before: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         
         switch (indexWeapon)
         {
@@ -139,7 +140,7 @@ public class WeaponController
                 break;
         }
         
-        Debug.Log($"After: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
+        Debug.Log($"[KIRO] After: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         
         weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
             selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,

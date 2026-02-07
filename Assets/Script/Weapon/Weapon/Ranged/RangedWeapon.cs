@@ -41,11 +41,15 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void Shoot()
     {
-        Debug.Log($"Shoot + {this.name}");
+        Debug.Log($"[KIRO] RangedWeapon.Shoot() on {this.name}, ammo={_ammo}");
         if(!EmptyAmmo && CooldownShoot())
         {
             TypeShoot();
             if (_ammo <= 0) EmptyAmmo = true;
+        }
+        else
+        {
+            Debug.Log($"[KIRO] Cannot shoot: EmptyAmmo={EmptyAmmo}");
         }
     }
 
