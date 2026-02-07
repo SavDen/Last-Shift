@@ -80,7 +80,7 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void SetShootServerRpc(bool contextPerformed)
     {
-        Debug.Log($"[SERVER] SetShootServerRpc: {contextPerformed}, IsOwner={IsOwner}");
+        Debug.Log($"[KIRO] SetShootServerRpc: {contextPerformed}, IsOwner={IsOwner}");
         
         if (contextPerformed && _shootCorutine == null)
         {
@@ -269,7 +269,7 @@ public class PlayerController : EntityBase
     {
         if (!_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
-            Debug.Log($"[SERVER] ShootWeapon called, IsOwner={IsOwner}");
+            Debug.Log($"[KIRO] ShootWeapon called, IsOwner={IsOwner}");
             weaponController.Shoot();
         
             ShootEffectViewObserverRpc(true);
@@ -368,7 +368,7 @@ public class PlayerController : EntityBase
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
     {
-        Debug.Log($"[{(IsServer ? "SERVER" : "CLIENT")}] [{(IsOwner ? "OWNER" : "OTHER")}] ChangeWeaponIndex: {oldIndex} → {newIndex}");
+        Debug.Log($"[KIRO] ChangeWeaponIndex: {oldIndex} → {newIndex}, IsServer={IsServer}, IsOwner={IsOwner}");
         
         weaponController.StopShootParticle(); 
         weaponController.ChangeWeapon(newIndex);
@@ -387,7 +387,10 @@ public class PlayerController : EntityBase
                 StopReload();
             }
         
+            Debug.Log($"[KIRO] ChangeWeaponInternal: BEFORE _indexWeapon = {_indexWeapon.Value}");
             _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
+            Debug.Log($"[KIRO] ChangeWeaponInternal: AFTER _indexWeapon = {_indexWeapon.Value}");
+            
             ChangeWeaponObserverRpc();   
         }
     }
