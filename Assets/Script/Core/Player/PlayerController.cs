@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
-using Cinemachine;
 using FishNet;
 using FishNet.Component.Transforming;
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
-using Unity.VisualScripting;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,15 +32,21 @@ public class PlayerController : EntityBase
     private string _inputDevice;
     private Vector2 _moveInput;
     private Vector2 _lookInput;
+    private bool _localShoot = false;
 
     private float _nextMeleeAttack;
 
-    private bool _isShooting;
-    private bool _isReloading;
-    private bool _isChange;
-    private bool _isMeleeAttack;
+
+    private readonly SyncVar<int> _indexWeapon = new();
+    
+    private readonly SyncVar<bool> _isShooting = new();
+    private readonly SyncVar<bool> _isReloading = new();
+    private readonly SyncVar<bool> _isChange = new();
+    private readonly SyncVar<bool> _isMeleeAttack = new();
 
     private bool _isStopedShoot;
+    
+    private Coroutine _shootCorutine;
 
     public bool IsDead() => playerModel.IsDead();
 
@@ -58,15 +64,57 @@ public class PlayerController : EntityBase
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        _isShooting = context.performed;
+        if (context.performed)
+        {
+            SetShootServerRpc(true);
+        }
+
+        if (context.canceled)
+        {
+            SetShootServerRpc(false);
+        }
+        
+        
     }
 
-    
+    [ServerRpc]
+    private void SetShootServerRpc(bool contextPerformed)
+    {
+        if (contextPerformed && _shootCorutine == null)
+        {
+            StartShoot();
+        }
+
+        else if (!contextPerformed)
+        {
+            StopShoot();
+        }
+    }
+
+    private void StartShoot()
+    {
+        _isShooting.Value = true;
+        _shootCorutine = StartCoroutine(ShootServerUpdate());
+    }
+
+    private void StopShoot()
+    {
+        _isShooting.Value = false;
+        
+        if (_shootCorutine != null)
+        {
+            StopCoroutine(_shootCorutine);
+            ShootEffectViewObserverRpc(false);
+            _shootCorutine = null;    
+        }
+    }
+
+
     public void OnMeleeAttack(InputAction.CallbackContext context)
     {
-        if(context.started && Time.time >= _nextMeleeAttack + PlayerData.MeleeWeaponData.coolDown && !_isChange)
+        if(context.started)
         {
-            MeleeAttackServerRpc();
+            MeleeAttackServerRPC();
         }
 
     }
@@ -95,17 +143,15 @@ public class PlayerController : EntityBase
 
     public void OnChangeWeapon(InputAction.CallbackContext context)
     {
-        if (context.started && !_isMeleeAttack && !_isChange)
+        if (context.started)
         {
-            _isChange = true;
-            print(Time.time);
             ChangeWeaponServerRpc();
         }
     }
 
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started && !_isReloading && !_isChange && !_isMeleeAttack)
+        if (context.started)
         {
             ReloadServerRpc();
         }
@@ -164,6 +210,13 @@ public class PlayerController : EntityBase
             PlayerData.CountFlash,
             lineRenderer,
             Owner);
+
+        _indexWeapon.OnChange += ChangeWeaponIndex;
+    }
+
+    private void OnDisable()
+    {
+        _indexWeapon.OnChange -= ChangeWeaponIndex;
     }
 
     private void Update()
@@ -178,11 +231,20 @@ public class PlayerController : EntityBase
         Move();
 
         Turn();
-        
-        ShootWeapon();
 
         weaponController.ShowTrRender(transform);
     }
+
+    
+    public IEnumerator ShootServerUpdate()
+    {
+        while (true)
+        {
+            ShootWeapon();
+            yield return null;
+        }
+    }
+    
     
     //Network Transform Sync
     private void Move()
@@ -203,24 +265,22 @@ public class PlayerController : EntityBase
     
     private void ShootWeapon()
     {
-        if (_isShooting && !_isMeleeAttack && !_isChange && !_isReloading)
+        if (!_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
-            ShootServerRpc(true);
+            weaponController.Shoot();
+        
+            ShootEffectViewObserverRpc(true);
             _isStopedShoot = false;
-        }
-
-        else
-        {
-            if (!_isStopedShoot)
-            {
-                ShootServerRpc(false);
-                _isStopedShoot = true;
-            }
         }
     }
     
-    [ServerRpc]
-    private void ShootServerRpc(bool state)
+    // [ServerRpc]
+    // private void ShootServerRpc(bool state)
+    // {
+    //     ShootInternal(state);
+    // }
+
+    private void ShootInternal(bool state)
     {
         if (state)
         {
@@ -234,7 +294,7 @@ public class PlayerController : EntityBase
             ShootEffectViewObserverRpc(false);
         }
     }
-    
+
     [ObserversRpc]
     private void ShootEffectViewObserverRpc(bool state)
     {
@@ -251,108 +311,136 @@ public class PlayerController : EntityBase
         
     }
     
-   
-    [ServerRpc]
-    private void MeleeAttackServerRpc()
-    {
-        float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
-        MaleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
-        _nextMeleeAttack = Time.time + timeAnim;
-    }
     
     [ServerRpc]
-    private void MaleeAttack(float speedAnim,float timeAnim)
+    private void MeleeAttackServerRPC()
     {
-        
-        _isMeleeAttack = true;
+        MelleAttackInternal();
+        StopShoot();
+    }
 
-        if(_isReloading)
+    private void MelleAttackInternal()
+    {
+        if (Time.time >= _nextMeleeAttack + PlayerData.MeleeWeaponData.coolDown && !_isChange.Value)
         {
-            StopReloadServerRpc();
+            float timeAnim = PlayerData.MeleeWeaponData.reloadTime / PlayerData.MeleeWeaponData.SpeedAnim;
+            MeleeAttack(PlayerData.MeleeWeaponData.SpeedAnim ,timeAnim);
+            StartCoroutine(TimerMeleeAttack(timeAnim));
+            _nextMeleeAttack = Time.time + timeAnim;
+        }
+    }
+
+    private IEnumerator TimerMeleeAttack(float timeAnim)
+    {
+        yield return new WaitForSeconds(timeAnim);
+        _isMeleeAttack.Value = false;
+
+    }
+    private void MeleeAttack(float speedAnim,float timeAnim)
+    {
+        _isMeleeAttack.Value = true;
+
+        if(_isReloading.Value)
+        {
+            StopReload();
         }
         
+        weaponController.MelleAttack();
         MeleeAttackObserverRpc(speedAnim, timeAnim);
-        StartCoroutine(MeleeAttackLogicCorutine());
     }
 
-    private IEnumerator MeleeAttackLogicCorutine()
-    {
-        yield return new WaitForSeconds(0.3f);
-        print("Start Logic Attack Mele");
-        weaponController.MelleAttack();
-    }
 
     [ObserversRpc]
     private void MeleeAttackObserverRpc(float speedAnim, float timeAnim)
     {
-        StartCoroutine(playerView.MeleeAttackCorutine((IsMelleAttackState)=>
-            {
-                _isMeleeAttack = IsMelleAttackState;
-            },
-            speedAnim, timeAnim));
-        
-        print("End PlayerView Attack Mele");
+        StartCoroutine(playerView.MeleeAttackCorutine(speedAnim, timeAnim));
     }
     
     [ServerRpc]
     private void ChangeWeaponServerRpc()
     {
-        _isChange = true;
-        
-        ShootEffectViewObserverRpc(false);
-        if(_isReloading)
-        {
-            StopReloadServerRpc();
-        }
-        weaponController.ChangeWeapon();
-        ChangeWeaponObserverRpc();
+        ChangeWeaponInternal();
+        StopShoot();
     }
+    
+    private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
+    {
+        weaponController.ChangeWeapon(newIndex);
+    }
+
+    private void ChangeWeaponInternal()
+    {
+        if (!_isMeleeAttack.Value && !_isChange.Value)
+        {
+            _isChange.Value = true;
+        
+            ShootEffectViewObserverRpc(false);
+        
+            if(_isReloading.Value)
+            {
+                StopReload();
+            }
+        
+            _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
+            ChangeWeaponObserverRpc();   
+        }
+    }
+
+    
 
     [ObserversRpc]
     private void ChangeWeaponObserverRpc()
     {
         StartCoroutine(playerView.ChangeWeaponView((IsChanged) =>
         {
-            _isChange = IsChanged;
+            _isChange.Value = IsChanged;
+            // тут да, пока не решил как отлседить окончание перезарядки, скорее всего так же через корутину с фиксировнным временям
         }));
     }
     
     [ServerRpc]
     private void ReloadServerRpc()
     {
-        _reloadCorutine = StartCoroutine(Reload());
+        ReloadInternal(); 
+        StopShoot();
     }
-    
+
+    private void ReloadInternal()
+    {
+        if (!_isReloading.Value && !_isChange.Value && !_isMeleeAttack.Value)
+        {
+            _reloadCorutine = StartCoroutine(Reload());
+        }
+    }
+
     private IEnumerator Reload()
     {
-
-        _isReloading = true;
+        _isReloading.Value = true;
 
         AnimReloadObserverRpc(true);
         yield return new WaitForSeconds(weaponController.ReloadTimeWeapon - playerModel.ReloadTime);
         AnimReloadObserverRpc(false);
         weaponController.Reload();
 
-        _isReloading = false;
+        _isReloading.Value = false;
 
-    }
-
-    [ObserversRpc]
-    private void AnimReloadObserverRpc(bool isReload)
-    {
-        playerView.AnimReload(isReload);
     }
     
-    [ServerRpc]
-    private void StopReloadServerRpc()
+    private void StopReload()
     {
-        if (_isReloading)
+        if (_isReloading.Value)
         {
             //print("Enter Reload?");
             AnimReloadObserverRpc(false);
             StopCoroutine(_reloadCorutine);
-             _isReloading = false;
+             _isReloading.Value = false;
         }
+    }
+    
+    [ObserversRpc]
+    private void AnimReloadObserverRpc(bool isReload)
+    {
+        playerView.AnimReload(isReload);
     }
 
     [ServerRpc]

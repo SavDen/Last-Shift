@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using FishNet.Connection;
 using UnityEngine;
 
@@ -119,19 +120,21 @@ public class WeaponController
         weaponControllerView.UpodateAmmoThrowable(throwableSlot.IconThrowable, throwableSlot.AmmoThrowable);
     }
 
-    public void ChangeWeapon()
+    public void ChangeWeapon(int indexWeapon)
     {
-        if (selectWeapon == mainSlot)
+        switch (indexWeapon)
         {
-            selectWeapon = additionalSlot;
+            case 0:
+                selectWeapon = mainSlot;
+                break;
+            case 1:
+                selectWeapon = additionalSlot;
+                break;
+            default:
+                selectWeapon = mainSlot;
+                break;
         }
-
-        else
-        {
-            selectWeapon = mainSlot;
-        }
-
-
+        
         weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
             selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,
             throwableSlot.AmmoThrowable);
@@ -152,5 +155,9 @@ public class WeaponController
         }
     }
 
-    public void MelleAttack() => _meleeWeapon.ActiveMeleeWeapon();
+    public void MelleAttack()
+    {
+        _meleeWeapon.gameObject.SetActive(true);
+        _meleeWeapon.ActiveMeleeWeapon();   
+    }
 }

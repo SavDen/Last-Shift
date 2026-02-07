@@ -39,13 +39,9 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
         _ammoCapacity = _data.AmmoCapacity;
     }
 
-    public void Init(ShotableData datam, Unity.Networking.Transport.NetworkConnection owner)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void Shoot()
     {
+        Debug.Log($"Shoot + {this.name}");
         if(!EmptyAmmo && CooldownShoot())
         {
             TypeShoot();
@@ -55,7 +51,7 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
 
     public void StartParticle()
     {
-        
+        Debug.Log($"Particle + {this.name}");
     }
 
     public void StopParticle()
