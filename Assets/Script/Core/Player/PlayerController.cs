@@ -80,6 +80,8 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void SetShootServerRpc(bool contextPerformed)
     {
+        Debug.Log($"[SERVER] SetShootServerRpc: {contextPerformed}, IsOwner={IsOwner}");
+        
         if (contextPerformed && _shootCorutine == null)
         {
             StartShoot();
@@ -267,6 +269,7 @@ public class PlayerController : EntityBase
     {
         if (!_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
+            Debug.Log($"[SERVER] ShootWeapon called, IsOwner={IsOwner}");
             weaponController.Shoot();
         
             ShootEffectViewObserverRpc(true);
@@ -365,6 +368,8 @@ public class PlayerController : EntityBase
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
     {
+        Debug.Log($"[{(IsServer ? "SERVER" : "CLIENT")}] [{(IsOwner ? "OWNER" : "OTHER")}] ChangeWeaponIndex: {oldIndex} → {newIndex}");
+        
         weaponController.StopShootParticle(); 
         weaponController.ChangeWeapon(newIndex);
     }

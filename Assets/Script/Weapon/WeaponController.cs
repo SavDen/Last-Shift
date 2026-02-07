@@ -103,6 +103,7 @@ public class WeaponController
 
     public void StartShootParticle()
     {
+        Debug.Log($"StartShootParticle: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         selectWeapon.StartParticle();
         
     }
@@ -122,6 +123,9 @@ public class WeaponController
 
     public void ChangeWeapon(int indexWeapon)
     {
+        Debug.Log($"ChangeWeapon called: index={indexWeapon}");
+        Debug.Log($"Before: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
+        
         switch (indexWeapon)
         {
             case 0:
@@ -134,6 +138,8 @@ public class WeaponController
                 selectWeapon = mainSlot;
                 break;
         }
+        
+        Debug.Log($"After: selectWeapon = {(selectWeapon as MonoBehaviour)?.name ?? "null"}");
         
         weaponControllerView.UpdateWeaponView(selectWeapon.IconWeapon, throwableSlot.IconThrowable,
             selectWeapon.CurrentAmmo, selectWeapon.AmmoCapacity,
