@@ -359,12 +359,13 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void ChangeWeaponServerRpc()
     {
-        ChangeWeaponInternal();
         StopShoot();
+        ChangeWeaponInternal();
     }
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
     {
+        weaponController.StopShootParticle(); 
         weaponController.ChangeWeapon(newIndex);
     }
 
