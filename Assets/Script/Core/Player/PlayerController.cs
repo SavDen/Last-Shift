@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
-using Cinemachine;
 using FishNet;
 using FishNet.Component.Transforming;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
-using Unity.VisualScripting;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,6 +45,8 @@ public class PlayerController : EntityBase
     private readonly SyncVar<bool> _isMeleeAttack = new();
 
     private bool _isStopedShoot;
+    
+    private Coroutine _shootCorutine;
 
     public bool IsDead() => playerModel.IsDead();
 
@@ -79,7 +80,33 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void SetShootServerRpc(bool contextPerformed)
     {
-        _isShooting.Value = contextPerformed;
+        if (contextPerformed && _shootCorutine == null)
+        {
+            StartShoot();
+        }
+
+        else if (!contextPerformed)
+        {
+            StopShoot();
+        }
+    }
+
+    private void StartShoot()
+    {
+        _isShooting.Value = true;
+        _shootCorutine = StartCoroutine(ShootServerUpdate());
+    }
+
+    private void StopShoot()
+    {
+        _isShooting.Value = false;
+        
+        if (_shootCorutine != null)
+        {
+            StopCoroutine(_shootCorutine);
+            ShootEffectViewObserverRpc(false);
+            _shootCorutine = null;    
+        }
     }
 
 
@@ -204,11 +231,20 @@ public class PlayerController : EntityBase
         Move();
 
         Turn();
-        
-        ShootWeapon();
 
         weaponController.ShowTrRender(transform);
     }
+
+    
+    public IEnumerator ShootServerUpdate()
+    {
+        while (true)
+        {
+            ShootWeapon();
+            yield return null;
+        }
+    }
+    
     
     //Network Transform Sync
     private void Move()
@@ -229,27 +265,20 @@ public class PlayerController : EntityBase
     
     private void ShootWeapon()
     {
-        if (_isShooting.Value && !_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
+        if (!_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
-            ShootServerRpc(true);
+            weaponController.Shoot();
+        
+            ShootEffectViewObserverRpc(true);
             _isStopedShoot = false;
-        }
-
-        else
-        {
-            if (!_isStopedShoot)
-            {
-                ShootServerRpc(false);
-                _isStopedShoot = true;
-            }
         }
     }
     
-    [ServerRpc]
-    private void ShootServerRpc(bool state)
-    {
-        ShootInternal(state);
-    }
+    // [ServerRpc]
+    // private void ShootServerRpc(bool state)
+    // {
+    //     ShootInternal(state);
+    // }
 
     private void ShootInternal(bool state)
     {
@@ -287,6 +316,7 @@ public class PlayerController : EntityBase
     private void MeleeAttackServerRPC()
     {
         MelleAttackInternal();
+        StopShoot();
     }
 
     private void MelleAttackInternal()
@@ -330,6 +360,7 @@ public class PlayerController : EntityBase
     private void ChangeWeaponServerRpc()
     {
         ChangeWeaponInternal();
+        StopShoot();
     }
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
@@ -371,6 +402,7 @@ public class PlayerController : EntityBase
     private void ReloadServerRpc()
     {
         ReloadInternal(); 
+        StopShoot();
     }
 
     private void ReloadInternal()
