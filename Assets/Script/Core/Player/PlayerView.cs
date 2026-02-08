@@ -83,19 +83,19 @@ public class PlayerView: ICombinedDamageable
 
     private void NewParentTransform()
     {
+        Debug.Log($"[KIRO] NewParentTransform called!");
+        
         var transformObj = reloadPos.GetChild(0);
+        Debug.Log($"[KIRO] Moving {transformObj.name} from reloadPos to additionalWPos");
         transformObj.SetParent(additionalWPos);
         transformObj.localPosition = Vector3.zero;
         transformObj.localRotation = Quaternion.identity;
-        //transformObj.localScale = Vector3.one;
 
         var transformObj2 = additionalWPos.GetChild(0);
+        Debug.Log($"[KIRO] Moving {transformObj2.name} from additionalWPos to reloadPos");
         transformObj2.SetParent(reloadPos);
         transformObj2.localPosition = Vector3.zero;
         transformObj2.localRotation = Quaternion.identity;
-        //transformObj2.localScale = Vector3.one;
-
-        //UpdPosRigHandWeapon();
     }
 
     public void AnimMove(float x, float y)
