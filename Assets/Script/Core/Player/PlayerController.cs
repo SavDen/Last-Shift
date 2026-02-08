@@ -80,8 +80,6 @@ public class PlayerController : EntityBase
     [ServerRpc]
     private void SetShootServerRpc(bool contextPerformed)
     {
-        Debug.Log($"[KIRO] SetShootServerRpc: {contextPerformed}, IsOwner={IsOwner}");
-        
         if (contextPerformed && _shootCorutine == null)
         {
             StartShoot();
@@ -269,7 +267,6 @@ public class PlayerController : EntityBase
     {
         if (!_isMeleeAttack.Value && !_isChange.Value && !_isReloading.Value)
         {
-            Debug.Log($"[KIRO] ShootWeapon called, IsOwner={IsOwner}");
             weaponController.Shoot();
         
             ShootEffectViewObserverRpc(true);
@@ -368,16 +365,28 @@ public class PlayerController : EntityBase
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
     {
-        Debug.Log($"[KIRO] ChangeWeaponIndex: {oldIndex} → {newIndex}, IsServer={IsServer}, IsOwner={IsOwner}");
+        Debug.Log($"[KIRO] ChangeWeaponIndex called: oldIndex={oldIndex}, newIndex={newIndex}, asServer={asServer}, IsOwner={IsOwner}");
+        
+        // Если значение не изменилось - пропускаем (защита от двойного вызова)
+        if (oldIndex == newIndex)
+        {
+            Debug.Log($"[KIRO] Skipping ChangeWeaponIndex - indices are the same");
+            return;
+        }
         
         weaponController.StopShootParticle(); 
         weaponController.ChangeWeapon(newIndex);
+        Debug.Log($"[KIRO] ChangeWeaponIndex completed for newIndex={newIndex}");
     }
 
     private void ChangeWeaponInternal()
     {
         if (!_isMeleeAttack.Value && !_isChange.Value)
         {
+            int oldValue = _indexWeapon.Value;
+            int newValue = oldValue == 0 ? 1 : 0;
+            Debug.Log($"[KIRO] ChangeWeaponInternal: changing _indexWeapon from {oldValue} to {newValue}, IsOwner={IsOwner}");
+            
             _isChange.Value = true;
         
             ShootEffectViewObserverRpc(false);
@@ -387,9 +396,7 @@ public class PlayerController : EntityBase
                 StopReload();
             }
         
-            Debug.Log($"[KIRO] ChangeWeaponInternal: BEFORE _indexWeapon = {_indexWeapon.Value}");
-            _indexWeapon.Value = _indexWeapon.Value == 0 ? 1 : 0;
-            Debug.Log($"[KIRO] ChangeWeaponInternal: AFTER _indexWeapon = {_indexWeapon.Value}");
+            _indexWeapon.Value = newValue;
             
             ChangeWeaponObserverRpc();   
         }
