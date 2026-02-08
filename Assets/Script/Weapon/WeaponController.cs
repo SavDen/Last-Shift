@@ -34,11 +34,15 @@ public class WeaponController
         int explodeCount, int smokeCount, int flashCount,
         LineRenderer lineRenderer, NetworkConnection owner)
     {
+        Debug.Log($"[KIRO] InitWeapon called");
+        
         mainSlot = main;
         mainSlot.Init(mainData);
+        Debug.Log($"[KIRO] mainSlot initialized: {(mainSlot as MonoBehaviour)?.name}");
 
         additionalSlot = additional;
         additionalSlot.Init(additionalData);
+        Debug.Log($"[KIRO] additionalSlot initialized: {(additionalSlot as MonoBehaviour)?.name}");
 
         InitThrowable(throwableWeaponData, explodeCount, smokeCount, flashCount);
 
@@ -48,6 +52,7 @@ public class WeaponController
         _meleeWeapon.Init(meleeWeaponData);
 
         selectWeapon = mainSlot;
+        Debug.Log($"[KIRO] selectWeapon set to: {(selectWeapon as MonoBehaviour)?.name}");
 
 
        // weaponControllerView = new WeaponControllerView();

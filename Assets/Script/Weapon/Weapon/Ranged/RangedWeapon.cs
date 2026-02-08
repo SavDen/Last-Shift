@@ -91,11 +91,21 @@ public class RangedWeapon : MonoBehaviour, IShootableWeapon, IHasCooldown
     
     private void CreateOneBullet()
     {
+        Debug.Log($"[KIRO] CreateOneBullet on {this.name}, position={_billetPos?.position ?? Vector3.zero}");
+        
+        if (_billetPos == null)
+        {
+            Debug.LogError($"[KIRO] _billetPos is NULL on {this.name}!");
+            return;
+        }
+        
         var newBullet = Instantiate(_data.bullet, _billetPos.position, _billetPos.rotation);
         newBullet.transform.Rotate(new Vector3(0, Random.Range(-_data.rangedBullet, _data.rangedBullet), 0));
         InstanceFinder.ServerManager.Spawn(newBullet);
         newBullet.GetComponent<Bullet>().InitBullet(_data.baseDamage, _owner);
         newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * _data.bulletSpeed, ForceMode.Impulse);
+        
+        Debug.Log($"[KIRO] Bullet spawned successfully!");
     }
 
     private bool CooldownShoot()
