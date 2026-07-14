@@ -4,9 +4,9 @@ using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BootstrapManager : MonoBehaviour
+public class SteamLobbyManager : MonoBehaviour
 {
-    public static BootstrapManager instance;
+    public static SteamLobbyManager instance;
     
     [SerializeField] private NetworkManager _networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks _steamworks;  
@@ -20,14 +20,14 @@ public class BootstrapManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.Log("DUPLICATE BootstrapManager destroyed!");
+            Debug.Log("DUPLICATE SteamLobbyManager destroyed!");
             Destroy(gameObject);
             return;
         }
     
         instance = this;
         DontDestroyOnLoad(gameObject);
-        Debug.Log("BootstrapManager made persistent");
+        Debug.Log("SteamLobbyManager made persistent");
     }
 
     private void Start()

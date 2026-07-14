@@ -119,6 +119,109 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &634703590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 433047866001589967, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321384308816554150, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678115511137528144, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.81726
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653072075585602391, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726958740261094818, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2042486653
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245622174371368381, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533112376836643783, guid: ba630f154454149f2ada3d6f5fe7f44e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba630f154454149f2ada3d6f5fe7f44e, type: 3}
 --- !u!1 &1994318174
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +234,7 @@ GameObject:
   - component: {fileID: 1994318175}
   - component: {fileID: 1994318177}
   m_Layer: 0
-  m_Name: BootstrapManager
+  m_Name: SteamLobbyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +257,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1994318177}
-        m_TargetAssemblyTypeName: BootstrapManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: SteamLobbyManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -169,7 +272,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1994318177}
-        m_TargetAssemblyTypeName: BootstrapManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: SteamLobbyManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -206,7 +309,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1989b4cf696e94b0f8e4fe0d236728b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BootstrapManager
+  m_EditorClassIdentifier: Assembly-CSharp::SteamLobbyManager
   _networkManager: {fileID: 4028589418514469909}
   _steamworks: {fileID: 5810804918056531253}
 --- !u!1001 &2031095662
@@ -221,12 +324,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: IngameDebugConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22428984, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
@@ -738,7 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishySteamworks.FishySteamworks
   _serverBindAddress: 
   _port: 7770
-  _maximumClients: 9001
+  _maximumClients: 4
   _peerToPeer: 1
   _clientAddress: 
 --- !u!1660057539 &9223372036854775807
@@ -749,3 +860,4 @@ SceneRoots:
   - {fileID: 4028589418514469910}
   - {fileID: 2092207497}
   - {fileID: 2031095662}
+  - {fileID: 634703590}

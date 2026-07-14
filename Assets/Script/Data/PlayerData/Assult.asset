@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Assult
   m_EditorClassIdentifier: 
   PlayerClass: 0
-  prefab: {fileID: 1096376965629970, guid: 5ca4581ce598741409bac0c6f1bcf24c, type: 3}
+  prefab: {fileID: 5726958740261094818, guid: ba630f154454149f2ada3d6f5fe7f44e, type: 3}
   RangedWeapon1: {fileID: 11400000, guid: b1c9a5c5474da4e3186f203db5c811c2, type: 2}
   RangedWeapon2: {fileID: 11400000, guid: e7b05449655054d63818584a8c7e528d, type: 2}
   MeleeWeaponData: {fileID: 11400000, guid: a686512445f0744d48049f4fb531a0f1, type: 2}

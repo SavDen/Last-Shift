@@ -42,7 +42,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
             GetComponent<CapsuleCollider>());
     }
 
-    public void Initialized(EnemyData enemyData)
+    public void Initialize(EnemyData enemyData)
     {
         _enemyData = enemyData;
         
@@ -54,6 +54,8 @@ public class EnemyBase : EntityBase, ISmokeDamageable
         _navMeshAgent.avoidancePriority = Random.Range(_enemyData.MinPriority, _enemyData.MaxPriority);
 
         _follow = true;
+
+        StartCoroutine(Follow());
     }
     
     public void GetTarget(Transform target)
@@ -62,30 +64,26 @@ public class EnemyBase : EntityBase, ISmokeDamageable
         {
             _target = target;    
         }
-        
-        if (!_navMeshAgent.hasPath)
-        {
-            StartCoroutine(Follow());
-        }
     }
 
     private IEnumerator Follow()
     {
-        while(_follow && !_isDead.Value && _target != null)
+        while (!_isDead.Value)
         {
-            
-            _navMeshAgent.SetDestination(_target.position);
-
-            _enemyView.StateRun(_navMeshAgent.velocity.magnitude > 0.5f);
-
-            if (Vector3.Distance(_target.position, transform.position) <= _navMeshAgent.stoppingDistance)
+            if(_follow && _target != null)
             {
-                _navMeshAgent.velocity = Vector3.zero;
-                _follow = false;
-                print("StartAttack");
-                StartCoroutine(AttackCorutine());
-            }
+                _navMeshAgent.SetDestination(_target.position);
 
+                _enemyView.StateRun(_navMeshAgent.velocity.magnitude > 0.5f);
+
+                if (Vector3.Distance(_target.position, transform.position) <= _navMeshAgent.stoppingDistance)
+                {
+                    _navMeshAgent.velocity = Vector3.zero;
+                    _follow = false;
+                    print("StartAttack");
+                    StartCoroutine(AttackCorutine());
+                }
+            }
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -104,7 +102,6 @@ public class EnemyBase : EntityBase, ISmokeDamageable
             {
                 _follow = true;
                 print("EndAttack");
-                StartCoroutine(Follow());
             }
         }
     }
@@ -221,7 +218,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
         {
             bool _complte = false;
 
-            StopCoroutine(Follow());
+            _follow = false;
 
             _navMeshAgent.isStopped = true;
 
@@ -231,7 +228,7 @@ public class EnemyBase : EntityBase, ISmokeDamageable
                 if(_complte)
                 {
                     _navMeshAgent.isStopped = false;
-                    StartCoroutine(Follow());
+                    _follow = true;
                     _flashCorutine = null;
                 }
 

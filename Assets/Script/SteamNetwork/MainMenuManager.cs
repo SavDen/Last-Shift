@@ -12,6 +12,6 @@ public class MainMenuManager : MonoBehaviour
 
    public void CreateLobby()
    {
-      BootstrapManager.CreateLobby();
+      SteamLobbyManager.CreateLobby();
    }
 }

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 1994318175}
   - component: {fileID: 1994318177}
   m_Layer: 0
-  m_Name: BootstrapManager
+  m_Name: SteamLobbyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1994318177}
-        m_TargetAssemblyTypeName: BootstrapManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: SteamLobbyManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -169,7 +169,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1994318177}
-        m_TargetAssemblyTypeName: BootstrapManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: SteamLobbyManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1989b4cf696e94b0f8e4fe0d236728b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BootstrapManager
+  m_EditorClassIdentifier: Assembly-CSharp::SteamLobbyManager
   _networkManager: {fileID: 4028589418514469909}
   _steamworks: {fileID: 5810804918056531253}
 --- !u!1001 &2031095662

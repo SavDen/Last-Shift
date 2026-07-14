@@ -10,7 +10,7 @@ using FishNet.Transporting;
 using Steamworks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class LobbyManager : NetworkBehaviour
 {
@@ -18,26 +18,36 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private List<Transform> podiumPlace;
     [SerializeField] private NetworkObject playerPrefab;
     
-    private readonly List<NetworkConnection> _playerConnection = new();
+    // private readonly List<NetworkConnection> _playerConnection = new();
+    // private readonly Dictionary<NetworkConnection, NetworkConnection> _lobbyPlayers = new();
+
+    private readonly List<LobbyPlayerState> _players = new();
+
+    #region Subscriptions
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         print("сервер старт");
-        InstanceFinder.ServerManager.OnRemoteConnectionState += OnClientConnection;
-        SpawnPlayer(InstanceFinder.ServerManager.Clients.Values.First());
-    }
+        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState; //подписка на удаленное подключение 
 
+        foreach (NetworkConnection connection  //поиск по уже готовым подключениям (хост)
+                 in InstanceFinder.ServerManager.Clients.Values)
+        {
+            RegisterPlayer(connection);
+        }
+    }
+    
     private void OnDisable()
     {
-        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnClientConnection;
+        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
     }
 
-    private void OnClientConnection(NetworkConnection conn, RemoteConnectionStateArgs stateArgs)
+    private void OnRemoteConnectionState(NetworkConnection conn, RemoteConnectionStateArgs stateArgs)
     {
         if (stateArgs.ConnectionState == RemoteConnectionState.Started)
         {
-            SpawnPlayer(conn);
+            RegisterPlayer(conn);
         }
         
         if (stateArgs.ConnectionState == RemoteConnectionState.Stopped)
@@ -46,27 +56,25 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
+
+    #endregion
+    
     public void StartGame()
     {
         if (IsServer)
         {
             print("starting game");
-            StartGameServerRPC();
+            LoadGameScene();
         }
-    }
-    
-    private void StartGameServerRPC(NetworkConnection conn = null)
-    {
-        LoadGameScene();
     }
     
     private void LoadGameScene()
     {
-        foreach (var conn in _playerConnection.ToList())
+        foreach (var conn in _players)
         {
-            if (conn.FirstObject != null)
+            if (conn.LobbyObject != null)
             {
-                InstanceFinder.ServerManager.Despawn(conn.FirstObject);
+                InstanceFinder.ServerManager.Despawn(conn.LobbyObject);
             }
         }
         SceneLoadData sceneLoadData = new SceneLoadData("Game")
@@ -77,45 +85,117 @@ public class LobbyManager : NetworkBehaviour
         InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
 
     }
+    
+    private void RegisterPlayer(NetworkConnection connection)
+    {
+        if (connection == null)
+            return;
+        
+        if(HasPlayer(connection))
+            return;
+        
+        SpawnPlayer(connection);
+    }
 
 
     private void SpawnPlayer(NetworkConnection conn)
     {
-        AddPlayer(conn);
-        int playerIndex = _playerConnection.FindIndex(c => c.ClientId == conn.ClientId);
-        var spwnPos = podiumPlace[playerIndex].position;
+        int podiumIndex = FindPodiumIndex();
+
+        if (podiumIndex < 0)
+        {
+            Debug.LogWarning("Нет свободного подиума.");
+            return;
+        }
+        
+        var spwnPos = podiumPlace[podiumIndex].position;
 
         NetworkObject playerObj = Instantiate(playerPrefab, spwnPos, Quaternion.identity);
     
         InstanceFinder.ServerManager.Spawn(playerObj, conn);
         
+        AddPlayer(conn, playerObj, podiumIndex);
 
     }
     
-    private void DespawnPlayer(NetworkConnection conn)
+    private void DespawnPlayer(NetworkConnection conn) //dis дисконект от сессии 
     {
-        LeavePlayer(conn);
-        InstanceFinder.ServerManager.Despawn(conn.FirstObject);
+        LobbyPlayerState player = FindPlayer(conn);
+
+        if (player == null)
+            return;
+        
+        if (player.LobbyObject != null)
+        {
+            InstanceFinder.ServerManager.Despawn(player.LobbyObject);
+        }
+
+        _players.Remove(player);
     }
 
-    private void AddPlayer(NetworkConnection conn)
-    {
-        if (!_playerConnection.Contains(conn))
-            _playerConnection.Add(conn);
-    }
+    #region Network
 
-    private void LeavePlayer(NetworkConnection conn)
+    private void AddPlayer(NetworkConnection conn, NetworkObject player, int podiumIndex)
     {
-        _playerConnection.Remove(conn);
+        _players.Add(new LobbyPlayerState(conn, player, podiumIndex));
     }
-   
+    
     public void Leavelobby()
     {
-        BootstrapManager.LeaveLobby();
+        SteamLobbyManager.LeaveLobby();
     }
 
     public void InviteSteam()
     {
         SteamFriends.ActivateGameOverlay("Friends");
     }
+
+    //[ServerRpc(RequireOwnership = false)]
+    public void SelectClass(PlayerData playerData, NetworkConnection conn = null)
+    {
+        // if (conn != null && conn.FirstObject != null)
+        // {
+        //     
+        //     conn.FirstObject.GetComponent<PlayerController>().InitPlayer(playerData);
+        //     
+        //     InstanceFinder.ServerManager.Despawn(conn.FirstObject);
+        //     
+        //     int playerIndex = _playerConnection.FindIndex(c => c.ClientId == conn.ClientId);
+        //     var spwnPos = podiumPlace[playerIndex].position;
+        //
+        //     NetworkObject playerObj = Instantiate(playerData, spwnPos, Quaternion.identity);
+        //    
+        //     InstanceFinder.ServerManager.Spawn(playerObj, conn);
+        //     
+        // }
+    }
+
+    #endregion
+    
+    #region Tools
+
+    private LobbyPlayerState FindPlayer(NetworkConnection connection)
+    {
+        return _players.Find(player => player.Connection == connection);
+    }
+
+    private bool HasPlayer(NetworkConnection connection)
+    {
+        return _players.Exists(player => player.Connection == connection);
+    }
+    
+    private int FindPodiumIndex()
+    {
+        for (int i = 0; i < podiumPlace.Count; i++)
+        {
+            bool isOccupied = _players.Exists(player => player.PodiumIndex == i);
+
+            if (!isOccupied)
+                return i;
+        }
+
+        return -1;
+    }
+
+    #endregion
 }
