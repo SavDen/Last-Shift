@@ -16,6 +16,6 @@ public class GameNetworkManager : MonoBehaviour // ← Простой MonoBehavi
         //     InstanceFinder.ClientManager.StopConnection();
         // }
         
-        BootstrapManager.LeaveLobby();
+        SteamLobbyManager.LeaveLobby();
     }
 }

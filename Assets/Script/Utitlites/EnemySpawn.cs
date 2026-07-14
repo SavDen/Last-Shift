@@ -38,7 +38,7 @@ public class EnemySpawn : NetworkBehaviour
             
             InstanceFinder.ServerManager.Spawn(newEnemy.gameObject);
             
-            newEnemy.Initialized(enemy);
+            newEnemy.Initialize(enemy);
             
         }
     }

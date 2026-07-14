@@ -165,11 +165,11 @@ public class PlayerController : EntityBase
     }
     #endregion
 
-    //public void InitPlayer(PlayerData playerData)
-    //{
+    public void InitPlayer(PlayerData playerData)
+    {
 
-    //}
-    //Init
+    }
+    
     
     public override void OnStartClient()
     {
@@ -189,7 +189,7 @@ public class PlayerController : EntityBase
         {
             GetComponent<PlayerInput>().enabled = false;
             GetComponent<FlashVolumeEffect>().enabled = false;
-            GetComponent<PlayerController>().enabled = false;   
+            // GetComponent<PlayerController>().enabled = false;   
         }
     }
 
@@ -271,27 +271,6 @@ public class PlayerController : EntityBase
         
             ShootEffectViewObserverRpc(true);
             _isStopedShoot = false;
-        }
-    }
-    
-    // [ServerRpc]
-    // private void ShootServerRpc(bool state)
-    // {
-    //     ShootInternal(state);
-    // }
-
-    private void ShootInternal(bool state)
-    {
-        if (state)
-        {
-            weaponController.Shoot();
-        
-            ShootEffectViewObserverRpc(true);
-        }
-
-        else
-        {
-            ShootEffectViewObserverRpc(false);
         }
     }
 
