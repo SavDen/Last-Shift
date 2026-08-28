@@ -10,13 +10,17 @@ using FishNet.Transporting;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.LowLevel;
+using Zenject;
 
 
 public class LobbyManager : NetworkBehaviour
 {
     [SerializeField] private TextMeshProUGUI _lobbyNameText;
     [SerializeField] private List<Transform> podiumPlace;
-    [SerializeField] private NetworkObject playerPrefab;
+    [SerializeField] private NetworkObject _lobbyPrefab;
+    [SerializeField] private PlayerClassCatalog _playerClassCatalog;
+
     
     // private readonly List<NetworkConnection> _playerConnection = new();
     // private readonly Dictionary<NetworkConnection, NetworkConnection> _lobbyPlayers = new();
@@ -37,6 +41,7 @@ public class LobbyManager : NetworkBehaviour
             RegisterPlayer(connection);
         }
     }
+    
     
     private void OnDisable()
     {
@@ -108,16 +113,18 @@ public class LobbyManager : NetworkBehaviour
             return;
         }
         
-        var spwnPos = podiumPlace[podiumIndex].position;
+        var spwnPos = podiumPlace[podiumIndex];
 
-        NetworkObject playerObj = Instantiate(playerPrefab, spwnPos, Quaternion.identity);
-    
+        NetworkObject playerObj = Instantiate(_lobbyPrefab, spwnPos.position, spwnPos.rotation);
+        
+        playerObj.GetComponent<LobbyPlayer>().SetClass(_playerClassCatalog);
+        
         InstanceFinder.ServerManager.Spawn(playerObj, conn);
         
         AddPlayer(conn, playerObj, podiumIndex);
 
     }
-    
+
     private void DespawnPlayer(NetworkConnection conn) //dis дисконект от сессии 
     {
         LobbyPlayerState player = FindPlayer(conn);
@@ -150,24 +157,23 @@ public class LobbyManager : NetworkBehaviour
         SteamFriends.ActivateGameOverlay("Friends");
     }
 
-    //[ServerRpc(RequireOwnership = false)]
-    public void SelectClass(PlayerData playerData, NetworkConnection conn = null)
+    
+    public void SelectClass(int id)
     {
-        // if (conn != null && conn.FirstObject != null)
-        // {
-        //     
-        //     conn.FirstObject.GetComponent<PlayerController>().InitPlayer(playerData);
-        //     
-        //     InstanceFinder.ServerManager.Despawn(conn.FirstObject);
-        //     
-        //     int playerIndex = _playerConnection.FindIndex(c => c.ClientId == conn.ClientId);
-        //     var spwnPos = podiumPlace[playerIndex].position;
-        //
-        //     NetworkObject playerObj = Instantiate(playerData, spwnPos, Quaternion.identity);
-        //    
-        //     InstanceFinder.ServerManager.Spawn(playerObj, conn);
-        //     
-        // }
+        SelectClassServerRpc(id);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SelectClassServerRpc(int id, NetworkConnection conn  = null)
+    {
+        if(conn == null) return;
+        
+        LobbyPlayer player = FindPlayer(conn).LobbyObject.GetComponent<LobbyPlayer>();
+
+        if (player != null)
+        {
+            player.SetClassID(id);
+        }
     }
 
     #endregion

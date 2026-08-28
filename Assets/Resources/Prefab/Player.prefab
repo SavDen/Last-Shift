@@ -5502,6 +5502,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 960
   playerView:
+    bodySkin: {fileID: 0}
+    hairSkin: {fileID: 0}
+    faceSkin: {fileID: 0}
     flashEffect: {fileID: 1419986186256196655}
     animator: {fileID: 6339641797030144151}
     rig: {fileID: 7216494219434396007}

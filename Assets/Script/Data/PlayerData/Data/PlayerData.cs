@@ -1,13 +1,24 @@
+using FishNet.Object;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerProfile/Player")]
 public class PlayerData : ScriptableObject
 {
+    public int ID;
+    
     [Header("Class")]
     public PlayerClass PlayerClass;
 
-    [Header("GameObject")]
-    public GameObject prefab;
+    [Header("Prefab")]
+    public NetworkObject PlayerPrefab;
+    public NetworkObject LobbyPlayerPrefab;
+
+    [Header("View")] 
+    public Mesh BodySkin;
+    public Mesh HairSkin;
+    public Mesh FaceSkin;
+    public Material MaterialSkin;
+    
 
     [Header("DefaultWeapon")]
     public ShotableData RangedWeapon1;
@@ -23,4 +34,6 @@ public class PlayerData : ScriptableObject
     public int BufferWeapon;
     public float ReloadTime;
 
+
+    
 }

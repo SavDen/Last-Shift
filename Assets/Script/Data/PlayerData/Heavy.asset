@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca89a942242a4ca6a276940293a99f6, type: 3}
   m_Name: Heavy
   m_EditorClassIdentifier: 
+  ID: 1
   PlayerClass: 3
-  prefab: {fileID: 578676098311663920, guid: 7019dc62bf1ba419381fe316e282ba7c, type: 3}
-  RangedWeapon1: {fileID: 11400000, guid: 97cbc831bf3b04e8d9d580a8a82f1320, type: 2}
-  RangedWeapon2: {fileID: 11400000, guid: 91761bd0d3bf9403d93b6f742ac89d67, type: 2}
+  PlayerPrefab: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+    type: 3}
+  LobbyPlayerPrefab: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
+    type: 3}
+  BodySkin: {fileID: 4300050, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
+  HairSkin: {fileID: 0}
+  FaceSkin: {fileID: 0}
+  MaterialSkin: {fileID: 2100000, guid: 4fe683c5738cbb04fa4778c9029e704b, type: 2}
+  RangedWeapon1: {fileID: 11400000, guid: 91761bd0d3bf9403d93b6f742ac89d67, type: 2}
+  RangedWeapon2: {fileID: 11400000, guid: 97cbc831bf3b04e8d9d580a8a82f1320, type: 2}
   MeleeWeaponData: {fileID: 11400000, guid: 0147c99dcf45748f487fa14b4b60381a, type: 2}
   ThrowableWeaponDatas:
   - {fileID: 11400000, guid: c5b92d60c969c468db5598e281720e6e, type: 2}

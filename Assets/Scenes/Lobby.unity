@@ -143,13 +143,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129477976}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.97992474, z: 0, w: -0.1993678}
   m_LocalPosition: {x: -0.164, y: 0.72, z: 0}
   m_LocalScale: {x: 0.036009494, y: 1.6005652, z: 0.15645045}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1879941156}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -203, z: 0}
 --- !u!1 &231987784
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,13 +261,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3430797216330600842}
         m_TargetAssemblyTypeName: LobbyManagerUI, Assembly-CSharp
-        m_MethodName: SelectPlayer
-        m_Mode: 2
+        m_MethodName: SelectClass
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 845fb665fad5f48bd9532fe7f05c03f2,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: PlayerData, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1178,7 +1177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1138061149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,7 +1312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1220720787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1704,7 +1703,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1844,7 +1843,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1896866509}
+  m_Camera: {fileID: 1505015921}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1897,7 +1896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1545669515
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2390,12 +2389,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3430797216330600842}
         m_TargetAssemblyTypeName: LobbyManagerUI, Assembly-CSharp
-        m_MethodName: SelectPlayer
-        m_Mode: 2
+        m_MethodName: SelectClass
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 4d3809c7411384613b7266159e063720,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: PlayerData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2652,13 +2650,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3430797216330600842}
         m_TargetAssemblyTypeName: LobbyManagerUI, Assembly-CSharp
-        m_MethodName: SelectPlayer
-        m_Mode: 2
+        m_MethodName: SelectClass
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: d974518a4d0b04eac93201f81063f3ad,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: PlayerData, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2812,13 +2809,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3430797216330600842}
         m_TargetAssemblyTypeName: LobbyManagerUI, Assembly-CSharp
-        m_MethodName: SelectPlayer
-        m_Mode: 2
+        m_MethodName: SelectClass
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 34bd73e27268249958d2eb2404cf566f,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: PlayerData, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2999,7 +2995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1896866509
 Camera:
   m_ObjectHideFlags: 0
@@ -18335,6 +18331,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 960
   playerView:
+    bodySkin: {fileID: 0}
+    hairSkin: {fileID: 0}
+    faceSkin: {fileID: 0}
     flashEffect: {fileID: 4041738210390962848}
     animator: {fileID: 8960193159578107416}
     rig: {fileID: 5730212422887071720}
@@ -38070,9 +38069,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
         type: 3}
+      propertyPath: _lobbyPrefab
+      value: 
+      objectReference: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
+        type: 3}
+    - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
+        type: 3}
       propertyPath: _lobbyNameText
       value: 
       objectReference: {fileID: 1138061149}
+    - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
+        type: 3}
+      propertyPath: _playerClassCatalog
+      value: 
+      objectReference: {fileID: 11400000, guid: 51dbc0336212742e18c76f175d18cebe,
+        type: 2}
     - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
         type: 3}
       propertyPath: 'podiumPlace.Array.data[0]'
@@ -38170,6 +38181,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e40da08f290e4950a2e13bfda15aff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManagerUI
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3430797216330600843}
+  _networkObjectCache: {fileID: 0}
+--- !u!114 &3430797216330600843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1234316036648795361, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
+    type: 3}
+  m_PrefabInstance: {fileID: 3430797216330600840}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3430797216330600841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!4 &3475556103641104874
 Transform:
   m_ObjectHideFlags: 0
@@ -72944,7 +72970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
   <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 1
+  WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}

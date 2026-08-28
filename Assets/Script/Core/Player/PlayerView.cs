@@ -11,10 +11,13 @@ using Object = UnityEngine.Object;
 [System.Serializable]
 public class PlayerView: ICombinedDamageable
 {
+    [SerializeField] private SkinnedMeshRenderer bodySkin;
+    [SerializeField] private MeshFilter hairSkin,  faceSkin;
     [SerializeField] private FlashVolumeEffect flashEffect;
     [SerializeField] private Animator animator;
     [SerializeField] private RigBuilder rig;
     [SerializeField] private TwoBoneIKConstraint[] handsPos; //0 -left, 1- right
+    
     [SerializeField] private Transform mainWPos;
     [SerializeField] private Transform additionalWPos;
     [SerializeField] private Transform grenadePos;
@@ -35,7 +38,15 @@ public class PlayerView: ICombinedDamageable
     public Transform GrenagePos => grenadePos;
     public Transform MinePos => minePos;
 
-
+    public void InitSkin(Mesh playerDataBodySkin, Mesh playerDataHairSkin, Mesh playerDataFaceSkin, Material materialSkin)
+    {
+        bodySkin.sharedMesh = playerDataBodySkin;
+        bodySkin.sharedMaterial = materialSkin;
+        
+        hairSkin.sharedMesh = playerDataHairSkin;
+        faceSkin.sharedMesh = playerDataFaceSkin;
+        
+    }
     public void SpawnWeapon(GameObject mainSlot, GameObject additional, GameObject meleeWeaponData)
     {
         _mainSlot = Object.Instantiate(mainSlot, mainWPos).GetComponent<IShootableWeapon>();
@@ -179,4 +190,6 @@ public class PlayerView: ICombinedDamageable
     {
         flashEffect.StartEffect(duration);
     }
+
+    
 }

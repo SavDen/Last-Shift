@@ -12,17 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca89a942242a4ca6a276940293a99f6, type: 3}
   m_Name: Medic
   m_EditorClassIdentifier: 
+  ID: 2
   PlayerClass: 2
-  prefab: {fileID: 2362963495759133605, guid: 3d2e03dc988e8461f81b22f67f82dd0c, type: 3}
+  PlayerPrefab: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+    type: 3}
+  LobbyPlayerPrefab: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
+    type: 3}
+  BodySkin: {fileID: 4300022, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
+  HairSkin: {fileID: 4300000, guid: e40af89167b653a448a47c3c97a1a333, type: 3}
+  FaceSkin: {fileID: 0}
+  MaterialSkin: {fileID: 2100000, guid: 5e8fc9c7c99b13c42a3462f542806e21, type: 2}
   RangedWeapon1: {fileID: 11400000, guid: b1c9a5c5474da4e3186f203db5c811c2, type: 2}
   RangedWeapon2: {fileID: 11400000, guid: e7b05449655054d63818584a8c7e528d, type: 2}
   MeleeWeaponData: {fileID: 11400000, guid: 0147c99dcf45748f487fa14b4b60381a, type: 2}
-  ThrowableWeaponDatas: []
-  CountExplode: 0
-  CountSmok: 0
-  CountFlash: 0
+  ThrowableWeaponDatas:
+  - {fileID: 11400000, guid: e45ba9b8c61634be19f9164a7a5269d1, type: 2}
+  CountExplode: 2
+  CountSmok: 2
+  CountFlash: 2
   Health: 100
   Armor: 100
   SpeedMove: 5
   BufferWeapon: 0
-  ReloadTime: 2
+  ReloadTime: 1

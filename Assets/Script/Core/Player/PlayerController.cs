@@ -193,12 +193,15 @@ public class PlayerController : EntityBase
         }
     }
 
-    private void Awake()
+    public void InitDataPlayer()
     {
         //Cursor.visible = false;
         playerModel.InitModel(PlayerData);
 
-       playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
+        playerView.InitSkin(PlayerData.BodySkin, PlayerData.HairSkin, PlayerData.FaceSkin, PlayerData.MaterialSkin);
+        print(PlayerData.ID);
+        
+        playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
 
         weaponController.InitWeapon(playerView.MainSlotView, PlayerData.RangedWeapon1,
             playerView.AdditionalSlotView, PlayerData.RangedWeapon2,            
@@ -232,7 +235,7 @@ public class PlayerController : EntityBase
 
         Turn();
 
-        weaponController.ShowTrRender(transform);
+       // weaponController.ShowTrRender(transform);
     }
 
     

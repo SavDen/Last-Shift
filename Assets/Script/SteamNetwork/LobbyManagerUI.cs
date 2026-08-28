@@ -1,7 +1,8 @@
 using System;
+using FishNet.Object;
 using UnityEngine;
 
-public class LobbyManagerUI : MonoBehaviour
+public class LobbyManagerUI : NetworkBehaviour
 {
     private LobbyManager _lobbyManager;
 
@@ -10,9 +11,9 @@ public class LobbyManagerUI : MonoBehaviour
         _lobbyManager = GetComponent<LobbyManager>();
     }
 
-    public void SelectPlayer(PlayerData playerData)
+    public void SelectClass(int id)
     {
-        _lobbyManager.SelectClass(playerData);
+        _lobbyManager.SelectClass(id);
     }
     
 }

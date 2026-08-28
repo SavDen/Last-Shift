@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca89a942242a4ca6a276940293a99f6, type: 3}
   m_Name: Sniper
   m_EditorClassIdentifier: 
+  ID: 3
   PlayerClass: 1
-  prefab: {fileID: 4330507503875262152, guid: d2a70d8bf4ae046ee84322e7c2a15ecf, type: 3}
+  PlayerPrefab: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+    type: 3}
+  LobbyPlayerPrefab: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
+    type: 3}
+  BodySkin: {fileID: 4300036, guid: ffdfcb810f2918b4f8fe9f917f07bc78, type: 3}
+  HairSkin: {fileID: 4300000, guid: 19f13886c06a817449a6e270f34c0a43, type: 3}
+  FaceSkin: {fileID: 4300000, guid: 15936308f38d5984e9789c42a1b7aa21, type: 3}
+  MaterialSkin: {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
   RangedWeapon1: {fileID: 11400000, guid: e7b05449655054d63818584a8c7e528d, type: 2}
   RangedWeapon2: {fileID: 11400000, guid: 91761bd0d3bf9403d93b6f742ac89d67, type: 2}
   MeleeWeaponData: {fileID: 11400000, guid: a686512445f0744d48049f4fb531a0f1, type: 2}

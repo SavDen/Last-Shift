@@ -39,5 +39,6 @@ public class SpawnPlayerNetwork : NetworkBehaviour
         var player = Instantiate(_playerPrefab,  _spawnPoints[spawnIndex].position, Quaternion.identity);
         targetManager.RegisterTarget(player.GetComponent<PlayerController>());
         InstanceFinder.ServerManager.Spawn(player, conn);
+        //player.GetComponent<PlayerController>().PlayerData = 
     }
 }

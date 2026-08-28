@@ -1,8 +1,10 @@
 using System;
 using FishNet.Managing;
+using FishNet.Managing.Scened;
+using FishNet.Transporting;
 using Steamworks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SteamLobbyManager : MonoBehaviour
 {
@@ -16,6 +18,32 @@ public class SteamLobbyManager : MonoBehaviour
     private Callback<LobbyEnter_t> LobbyEnter;
     
     public static ulong CurrentLobbyID;
+
+    private void OnEnable()
+    {
+        _networkManager.ServerManager.OnServerConnectionState += OnServerConnectionState;
+    }
+
+    private void OnDisable()
+    {
+        if (_networkManager != null)
+        {
+            _networkManager.ServerManager.OnServerConnectionState -= OnServerConnectionState;
+        }
+    }
+
+    private void OnServerConnectionState(ServerConnectionStateArgs args)
+    {
+        if(args.ConnectionState != LocalConnectionState.Started)
+            return;
+        SceneLoadData sceneLoadData = new SceneLoadData("Lobby")
+        {
+            ReplaceScenes = ReplaceOption.All
+        };
+        
+        _networkManager.SceneManager.LoadGlobalScenes(sceneLoadData);
+    }
+
     private void Awake()
     {
         if (instance != null)
@@ -76,7 +104,6 @@ public class SteamLobbyManager : MonoBehaviour
         _steamworks.StartConnection(true);
         print("Lobby created OK");
         
-        LoadScene("Lobby");
     }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
@@ -95,6 +122,5 @@ public class SteamLobbyManager : MonoBehaviour
         
         if(_networkManager.IsServer) return;
         print("Lobby Enter Success");
-        LoadScene("Lobby");
     }
 }
