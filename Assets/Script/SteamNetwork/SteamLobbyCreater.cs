@@ -6,9 +6,9 @@ using Steamworks;
 using UnityEngine;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
-public class SteamLobbyManager : MonoBehaviour
+public class SteamLobbyCreater : MonoBehaviour
 {
-    public static SteamLobbyManager instance;
+    public static SteamLobbyCreater instance;
     
     [SerializeField] private NetworkManager _networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks _steamworks;  

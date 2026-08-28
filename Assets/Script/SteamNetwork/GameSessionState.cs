@@ -1,13 +1,38 @@
 using System.Collections.Generic;
 using FishNet.Connection;
+using UnityEngine;
 
-    public class GameSessionState
+public class GameSessionState: MonoBehaviour
     {
-        private readonly Dictionary<int, int> _classId = new();
+        public static GameSessionState instance;
 
-        private void SetClass(NetworkConnection conn, int classIndex)
+        public void Awake()
         {
-            _classId[conn.ClientId] =  classIndex;
+            instance = this;
+        }
+
+        private readonly Dictionary<NetworkConnection, PlayerData> _classPlayer = new();
+
+        public void SetClass(NetworkConnection conn, PlayerData playerData)
+        {
+            if (conn == null || playerData == null)
+            {
+                print($@"Is Null Error. \n {conn} , {playerData}");
+                return;
+            }
+            
+            _classPlayer[conn] =  playerData;
+        }
+
+        public PlayerData GetClass(NetworkConnection conn)
+        { 
+            _classPlayer.TryGetValue(conn, out var playerData);
+            return playerData;
+        }
+        
+        public void DeleteClass(NetworkConnection conn)
+        {
+            _classPlayer.Remove(conn);
         }
         
     }
