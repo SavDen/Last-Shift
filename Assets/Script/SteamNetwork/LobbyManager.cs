@@ -21,9 +21,6 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private NetworkObject _lobbyPrefab;
     [SerializeField] private PlayerClassCatalog _playerClassCatalog;
 
-    
-    // private readonly List<NetworkConnection> _playerConnection = new();
-    // private readonly Dictionary<NetworkConnection, NetworkConnection> _lobbyPlayers = new();
 
     private readonly List<LobbyPlayerState> _players = new();
 
@@ -149,7 +146,7 @@ public class LobbyManager : NetworkBehaviour
     
     public void Leavelobby()
     {
-        SteamLobbyManager.LeaveLobby();
+        SteamLobbyCreater.LeaveLobby();
     }
 
     public void InviteSteam()

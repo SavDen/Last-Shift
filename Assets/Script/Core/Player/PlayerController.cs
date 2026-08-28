@@ -13,7 +13,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : EntityBase
 {
-    public PlayerData PlayerData;
+    private PlayerData PlayerData;
 
     [Header ("MVC")]
     [SerializeField] private PlayerModel playerModel;
@@ -167,7 +167,8 @@ public class PlayerController : EntityBase
 
     public void InitPlayer(PlayerData playerData)
     {
-
+        PlayerData = playerData;
+        InitDataPlayer();
     }
     
     
@@ -193,7 +194,7 @@ public class PlayerController : EntityBase
         }
     }
 
-    public void InitDataPlayer()
+    private void InitDataPlayer()
     {
         //Cursor.visible = false;
         playerModel.InitModel(PlayerData);
