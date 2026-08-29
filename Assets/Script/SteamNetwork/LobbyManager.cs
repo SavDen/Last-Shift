@@ -1,8 +1,8 @@
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
+
 using FishNet;
-using FishNet.Component.Spawning;
+
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
@@ -10,7 +10,6 @@ using FishNet.Transporting;
 using Steamworks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.LowLevel;
 using Zenject;
 
 
@@ -19,7 +18,7 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _lobbyNameText;
     [SerializeField] private List<Transform> podiumPlace;
     [SerializeField] private NetworkObject _lobbyPrefab;
-    [SerializeField] private PlayerClassCatalog _playerClassCatalog;
+    
 
 
     private readonly List<LobbyPlayerState> _players = new();
@@ -114,18 +113,10 @@ public class LobbyManager : NetworkBehaviour
 
         NetworkObject playerObj = Instantiate(_lobbyPrefab, spwnPos.position, spwnPos.rotation);
         
-        SetCalssPlayers(playerObj);
-        
         InstanceFinder.ServerManager.Spawn(playerObj, conn);
         
         AddPlayer(conn, playerObj, podiumIndex);
 
-    }
-
-    [ObserversRpc(RunLocally = true, BufferLast = true)]
-    private void SetCalssPlayers(NetworkObject playerObj)
-    {
-        playerObj.GetComponent<LobbyPlayer>().SetClass(_playerClassCatalog);
     }
 
     private void DespawnPlayer(NetworkConnection conn) //dis дисконект от сессии 

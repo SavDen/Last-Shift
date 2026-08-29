@@ -4603,6 +4603,8 @@ MonoBehaviour:
   - {fileID: 6623835564143787769}
   - {fileID: 1767428021850093147}
   rig: {fileID: 6005899146449874604}
+  _playerClassCatalog: {fileID: 11400000, guid: 51dbc0336212742e18c76f175d18cebe,
+    type: 2}
   mainWPos: {fileID: 2107065616776336418}
 --- !u!1 &6656390801377193273
 GameObject:

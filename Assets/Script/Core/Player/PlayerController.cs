@@ -9,6 +9,7 @@ using FishNet.Transporting;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : EntityBase
@@ -47,6 +48,7 @@ public class PlayerController : EntityBase
     private bool _isStopedShoot;
     
     private Coroutine _shootCorutine;
+    private PlayerClassCatalog _playerClassCatalog;
 
     public bool IsDead() => playerModel.IsDead();
 
@@ -165,9 +167,9 @@ public class PlayerController : EntityBase
     }
     #endregion
 
-    public void InitPlayer(PlayerData playerData)
+    public void InitPlayer()
     {
-        PlayerData = playerData;
+        PlayerData = GameSessionState.instance.GetClass(ClientManager.Connection);
         InitDataPlayer();
     }
     

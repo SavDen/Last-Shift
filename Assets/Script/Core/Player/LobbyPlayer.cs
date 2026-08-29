@@ -11,19 +11,13 @@ public class LobbyPlayer : NetworkBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private TwoBoneIKConstraint[] handsPos;//0 -left, 1- right
     [SerializeField] private RigBuilder rig;
-
+    [SerializeField] private PlayerClassCatalog _playerClassCatalog;
 
     [Header("WeaponPos")] 
     [SerializeField] private Transform mainWPos;
 
     private readonly SyncVar<int> _classId = new(-1);
     private PlayerData _playerData;
-    private PlayerClassCatalog _playerClassCatalog;
-    
-    public void SetClass(PlayerClassCatalog playerClassCatalog)
-    {
-        _playerClassCatalog = playerClassCatalog;
-    }
     
     public override void OnStartClient()
     {
