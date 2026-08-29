@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
-using FishNet;
-using FishNet.Component.Transforming;
-using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using FishNet.Transporting;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -167,7 +163,8 @@ public class PlayerController : EntityBase
     }
     #endregion
 
-    public void InitPlayer()
+    
+    private void InitPlayer()
     {
         PlayerData = GameSessionState.instance.GetClass(ClientManager.Connection);
         InitDataPlayer();
@@ -187,6 +184,8 @@ public class PlayerController : EntityBase
                 camera.Follow = transform;
                 camera.LookAt = transform;   
             }
+
+            InitPlayer();
         }
         else
         {
