@@ -114,12 +114,18 @@ public class LobbyManager : NetworkBehaviour
 
         NetworkObject playerObj = Instantiate(_lobbyPrefab, spwnPos.position, spwnPos.rotation);
         
-        playerObj.GetComponent<LobbyPlayer>().SetClass(_playerClassCatalog);
+        SetCalssPlayers(playerObj);
         
         InstanceFinder.ServerManager.Spawn(playerObj, conn);
         
         AddPlayer(conn, playerObj, podiumIndex);
 
+    }
+
+    [ObserversRpc(RunLocally = true, BufferLast = true)]
+    private void SetCalssPlayers(NetworkObject playerObj)
+    {
+        playerObj.GetComponent<LobbyPlayer>().SetClass(_playerClassCatalog);
     }
 
     private void DespawnPlayer(NetworkConnection conn) //dis дисконект от сессии 

@@ -2443,7 +2443,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3430797216330600840}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3430797216330600841}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f0f1da1c2623431a80c4cc675e8371c, type: 3}
@@ -18321,7 +18321,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8687323945349864053}
   _networkObjectCache: {fileID: 8687323945349864053}
-  PlayerData: {fileID: 11400000, guid: 4d3809c7411384613b7266159e063720, type: 2}
   playerModel:
     characterController: {fileID: 3753780362679402649}
     _playerUIHub:
@@ -38069,21 +38068,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
         type: 3}
-      propertyPath: _lobbyPrefab
-      value: 
-      objectReference: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
-        type: 3}
-    - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
-        type: 3}
       propertyPath: _lobbyNameText
       value: 
       objectReference: {fileID: 1138061149}
-    - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
-        type: 3}
-      propertyPath: _playerClassCatalog
-      value: 
-      objectReference: {fileID: 11400000, guid: 51dbc0336212742e18c76f175d18cebe,
-        type: 2}
     - target: {fileID: 1390940414506703589, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
         type: 3}
       propertyPath: 'podiumPlace.Array.data[0]'
@@ -38157,45 +38144,20 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 893126864139793455, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3430797216330600842}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37cfa0e8c0c0a4ac79829f9d08c50364, type: 3}
---- !u!1 &3430797216330600841 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 893126864139793455, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
+--- !u!114 &3430797216330600842 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3037726113931960546, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
     type: 3}
   m_PrefabInstance: {fileID: 3430797216330600840}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3430797216330600842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3430797216330600841}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e40da08f290e4950a2e13bfda15aff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManagerUI
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 3430797216330600843}
-  _networkObjectCache: {fileID: 0}
---- !u!114 &3430797216330600843 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1234316036648795361, guid: 37cfa0e8c0c0a4ac79829f9d08c50364,
-    type: 3}
-  m_PrefabInstance: {fileID: 3430797216330600840}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3430797216330600841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!4 &3475556103641104874
 Transform:
   m_ObjectHideFlags: 0

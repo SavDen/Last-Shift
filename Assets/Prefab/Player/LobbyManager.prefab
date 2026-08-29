@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7935378574834268184}
   - component: {fileID: 1390940414506703589}
   - component: {fileID: 1234316036648795361}
+  - component: {fileID: 3037726113931960546}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -54,8 +55,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  playerPrefab: {fileID: 5993303250477518074, guid: ba630f154454149f2ada3d6f5fe7f44e,
+  _lobbyPrefab: {fileID: 6652454762089466524, guid: e20fa72f268224033a365476cc1182df,
     type: 3}
+  _playerClassCatalog: {fileID: 11400000, guid: 51dbc0336212742e18c76f175d18cebe,
+    type: 2}
 --- !u!114 &1234316036648795361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,3 +111,18 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 0, y: 0, z: 0}
     IsValid: 0
+--- !u!114 &3037726113931960546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893126864139793455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e40da08f290e4950a2e13bfda15aff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyManagerUI
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1234316036648795361}
+  _networkObjectCache: {fileID: 0}
