@@ -5492,7 +5492,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
-  PlayerData: {fileID: 11400000, guid: 4d3809c7411384613b7266159e063720, type: 2}
   playerModel:
     characterController: {fileID: 2286691497760593430}
     _playerUIHub:
