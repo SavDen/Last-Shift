@@ -10,6 +10,7 @@ using Zenject;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : EntityBase
 {
+    [SerializeField] private PlayerClassCatalog _playerClassCatalog;
     private PlayerData PlayerData;
 
     [Header ("MVC")]
@@ -34,6 +35,7 @@ public class PlayerController : EntityBase
     private float _nextMeleeAttack;
 
 
+    private readonly SyncVar<int> _indexClass = new(-1);
     private readonly SyncVar<int> _indexWeapon = new();
     
     private readonly SyncVar<bool> _isShooting = new();
@@ -44,7 +46,7 @@ public class PlayerController : EntityBase
     private bool _isStopedShoot;
     
     private Coroutine _shootCorutine;
-    private PlayerClassCatalog _playerClassCatalog;
+   
 
     public bool IsDead() => playerModel.IsDead();
 
@@ -162,11 +164,16 @@ public class PlayerController : EntityBase
         
     }
     #endregion
-
+    
+    public void SetClass(int getClass)
+    {
+        _indexClass.Value = getClass;
+        print($"Massege method + classId {_indexClass}");
+    }
     
     private void InitPlayer()
     {
-        PlayerData = GameSessionState.instance.GetClass(ClientManager.Connection);
+        PlayerData = _playerClassCatalog.GetPlayerData(_indexClass.Value); 
         InitDataPlayer();
     }
     
@@ -174,7 +181,7 @@ public class PlayerController : EntityBase
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
+        InitPlayer();
         if (IsOwner)
         {
             var camera= FindFirstObjectByType<CinemachineVirtualCamera>();
@@ -184,8 +191,6 @@ public class PlayerController : EntityBase
                 camera.Follow = transform;
                 camera.LookAt = transform;   
             }
-
-            InitPlayer();
         }
         else
         {
@@ -193,6 +198,7 @@ public class PlayerController : EntityBase
             GetComponent<FlashVolumeEffect>().enabled = false;
             // GetComponent<PlayerController>().enabled = false;   
         }
+        
     }
 
     private void InitDataPlayer()
@@ -201,7 +207,6 @@ public class PlayerController : EntityBase
         playerModel.InitModel(PlayerData);
 
         playerView.InitSkin(PlayerData.BodySkin, PlayerData.HairSkin, PlayerData.FaceSkin, PlayerData.MaterialSkin);
-        print(PlayerData.ID);
         
         playerView.SpawnWeapon(PlayerData.RangedWeapon1.prefab, PlayerData.RangedWeapon2.prefab, PlayerData.MeleeWeaponData.prefab);
 
@@ -226,8 +231,6 @@ public class PlayerController : EntityBase
 
     private void Update()
     {
-        //print($"{_isShooting} , {_isChange} , {_isMeleeAttack} , {_isReloading}");
-        
         if (!IsOwner)
         {
             return;
@@ -236,8 +239,6 @@ public class PlayerController : EntityBase
         Move();
 
         Turn();
-
-       // weaponController.ShowTrRender(transform);
     }
 
     
@@ -349,18 +350,15 @@ public class PlayerController : EntityBase
     
     private void ChangeWeaponIndex(int oldIndex,  int newIndex, bool asServer)
     {
-        Debug.Log($"[KIRO] ChangeWeaponIndex called: oldIndex={oldIndex}, newIndex={newIndex}, asServer={asServer}, IsOwner={IsOwner}");
-        
         // Если значение не изменилось - пропускаем (защита от двойного вызова)
         if (oldIndex == newIndex)
         {
-            Debug.Log($"[KIRO] Skipping ChangeWeaponIndex - indices are the same");
+
             return;
         }
         
         weaponController.StopShootParticle(); 
         weaponController.ChangeWeapon(newIndex);
-        Debug.Log($"[KIRO] ChangeWeaponIndex completed for newIndex={newIndex}");
     }
 
     private void ChangeWeaponInternal()
@@ -471,4 +469,5 @@ public class PlayerController : EntityBase
     {
         playerView.FlashEffect(duration);
     }
+    
 }

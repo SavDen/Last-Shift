@@ -11,9 +11,9 @@ public class GameSessionState: MonoBehaviour
             instance = this;
         }
 
-        private readonly Dictionary<NetworkConnection, PlayerData> _classPlayer = new();
+        private readonly Dictionary<int, int> _classPlayer = new();
 
-        public void SetClass(NetworkConnection conn, PlayerData playerData)
+        public void SetClass(int conn, int playerData)
         {
             if (conn == null || playerData == null)
             {
@@ -24,13 +24,13 @@ public class GameSessionState: MonoBehaviour
             _classPlayer[conn] =  playerData;
         }
 
-        public PlayerData GetClass(NetworkConnection conn)
+        public int GetClass(int conn)
         { 
-            _classPlayer.TryGetValue(conn, out var playerData);
-            return playerData;
+            _classPlayer.TryGetValue(conn, out var getClass);
+            return getClass;
         }
         
-        public void DeleteClass(NetworkConnection conn)
+        public void DeleteClass(int conn)
         {
             _classPlayer.Remove(conn);
         }

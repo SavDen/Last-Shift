@@ -62,7 +62,7 @@ public class LobbyPlayer : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SetClassPlayerDataRPC(int id)
     {
-        GameSessionState.instance.SetClass(conn:ClientManager.Connection, _playerClassCatalog.GetPlayerData(id));
+        GameSessionState.instance.SetClass(conn:ClientManager.Connection.ClientId, id);
     }
 
     [ServerRpc]
